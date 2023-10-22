@@ -1,18 +1,23 @@
 package com.adrianLopez.proyectoPokemon.db;
 
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.adrianLopez.proyectoPokemon.exception.DBConnectionException;
 import com.adrianLopez.proyectoPokemon.exception.SQLStatementException;
 
-import java.sql.*;
-import java.util.List;
-
 @Component
 public class DBUtil {
 
-    private static final String URL_CONNECTION = "jdbc:mariadb://localhost:3306/movies";
+    private static final String URL_CONNECTION = "jdbc:mysql://localhost:3306/pokemon";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
@@ -23,6 +28,7 @@ public class DBUtil {
                     USERNAME,
                     PASSWORD
             );
+            System.out.println("Connected");
             return connection;
         } catch (SQLException e) {
             throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
@@ -48,6 +54,7 @@ public class DBUtil {
     public static ResultSet select(Connection connection, String sql, List<Object> values) {
         try {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
+            System.out.println(preparedStatement);
             return preparedStatement.executeQuery();
         } catch (Exception e) {
             throw new RuntimeException("Error executing sql statement: " + sql);

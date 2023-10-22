@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProyectoPokemonApplication<proyectoPokemon>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.adrianLopez.proyectoPokemon.ProyectoPokemonApplication",
+            "projectName": "proyectoPokemon",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MoviesApplication<es.cesguiro-movies>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.cesguiro.movies.MoviesApplication",
+            "projectName": "es.cesguiro-movies",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
