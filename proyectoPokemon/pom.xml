@@ -14,7 +14,7 @@
 	<name>proyectoPokemon</name>
 	<description>Proyecto pokemon de Adrian Lopez</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 
@@ -37,12 +37,6 @@
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<version>8.0.33</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version> <!-- La versión puede variar, verifica la versión más reciente -->
-			<scope>test</scope>
 		</dependency>
 		<dependency>
             <groupId>org.projectlombok</groupId>
