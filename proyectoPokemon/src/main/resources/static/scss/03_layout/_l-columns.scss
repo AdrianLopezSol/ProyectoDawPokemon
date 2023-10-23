@@ -1,0 +1,22 @@
+.l-columns{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    width: 0px;
+    margin-left: 10%;
+    margin-bottom: 50px;
+
+    &--3 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0px 200px 0px 200px;
+    }
+
+    &--4 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        
+    }
+}

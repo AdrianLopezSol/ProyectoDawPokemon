@@ -1,0 +1,16 @@
+{
+    "name": "tu-proyecto",
+    "version": "1.0.0",
+    "description": "Descripción de tu proyecto",
+    "scripts": {
+      "build": "npm run copy-src && npm run compile-java && npm run transpile-sass && npm run generate-jar",
+      "copy-src": "xcopy /E /I /Y src target",
+      "compile-java": "mvn compile",
+      "transpile-sass": "sass src/main/resources/static/scss/main.scss target/src/main/resources/static/scss/main.css",
+      "generate-jar": "mvn package"
+    },
+  "devDependencies": {
+    "node-sass": "^6.0.1",
+    "typescript": "^4.0.5"
+  }
+}

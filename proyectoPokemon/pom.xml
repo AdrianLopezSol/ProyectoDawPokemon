@@ -14,7 +14,7 @@
 	<name>proyectoPokemon</name>
 	<description>Proyecto pokemon de Adrian Lopez</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>16</java.version>
 	</properties>
 	<dependencies>
 
@@ -39,6 +39,12 @@
 			<version>8.0.33</version>
 		</dependency>
 		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version> <!-- La versión puede variar, verifica la versión más reciente -->
+			<scope>test</scope>
+		</dependency>
+		<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -46,11 +52,29 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.22.0</version>
+			<dependencies>
+				<dependency>
+					<groupId>org.junit.platform</groupId>
+					<artifactId>junit-platform-surefire-provider</artifactId>
+					<version>1.2.0</version>
+				</dependency>
+			</dependencies>
+			<configuration>
+				<additionalClasspathElements>
+					<additionalClasspathElement>src/test/java/</additionalClasspathElement>
+				</additionalClasspathElements>
+			</configuration>
+		</plugin>
+            <!-- Plugin para empaquetar el proyecto en un archivo JAR -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
