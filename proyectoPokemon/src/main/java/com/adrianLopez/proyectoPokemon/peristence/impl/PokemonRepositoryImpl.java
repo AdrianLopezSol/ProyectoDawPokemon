@@ -49,7 +49,10 @@ public class PokemonRepositoryImpl implements PokemonRepository {
                 return Optional.of(
                         new Pokemon(
                                 resultSet.getString("pok_name"),
-                                resultSet.getInt("pok_id")
+                                resultSet.getInt("pok_id"),
+                                resultSet.getDouble("pok_height"),
+                                resultSet.getDouble("pok_weight"),
+                                resultSet.getInt("pok_base_experience")
                         )
                 );
             } else {
