@@ -20,7 +20,6 @@ fetch("http://localhost:8080/pokemon")
         fetch("http://localhost:8080/pokemon/"+pokemon.id)
         .then((response) => response.json())
         .then((data) => {
-                console.log(data); 
                 detailsContainer.style.display = "block";
                 document.getElementById("pokemon-name").textContent = capitalizeFirstLetter(data.name);
                 document.getElementById("pokemon-id").textContent = data.id;

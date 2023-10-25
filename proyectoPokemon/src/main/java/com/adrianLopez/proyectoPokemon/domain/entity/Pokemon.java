@@ -6,14 +6,14 @@ public class Pokemon {
     private String name;
     private double height;
     private double weight;
-    private int base_experience;
+    private int exp;
  
-    public Pokemon(String name, int id, double height, double weight, int base_experience) {
+    public Pokemon(String name, int id, double height, double weight, int exp) {
         this.id = id;
         this.name = name;
         this.height = height;
         this.weight = weight;
-        this.base_experience = base_experience;
+        this.exp = exp;
     }
 
     public Pokemon(String name, int id) {
@@ -30,12 +30,12 @@ public class Pokemon {
         this.id = id;
     }
 
-    public int getBase_experience() {
-        return base_experience;
+    public int getexp() {
+        return exp;
     }
  
-    public void setBase_experience(int base_experience) {
-        this.base_experience = base_experience;
+    public void setexp(int exp) {
+        this.exp = exp;
     }
  
  

@@ -1,17 +1,18 @@
 package com.adrianLopez.proyectoPokemon.domain.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.adrianLopez.proyectoPokemon.domain.entity.Pokemon;
+import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
 
 @Service
 public interface PokemonService {
 
-     public List<Pokemon> getAll();
+     public List<PokemonDTO> getAll(Integer page, Integer pageSize);
 
-     public Optional<Pokemon> find(int id);
+     public List<PokemonDTO> getAll();
+
+     public PokemonDTO find(int id);
     
 }

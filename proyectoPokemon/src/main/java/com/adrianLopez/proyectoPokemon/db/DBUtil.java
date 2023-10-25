@@ -21,14 +21,14 @@ public class DBUtil {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    public static Connection open(){
+    public static Connection open(boolean autoCommit){
         try {
             Connection connection = DriverManager.getConnection(
                     URL_CONNECTION,
                     USERNAME,
                     PASSWORD
             );
-            System.out.println("Connected");
+            connection.setAutoCommit(autoCommit);
             return connection;
         } catch (SQLException e) {
             throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
@@ -54,7 +54,6 @@ public class DBUtil {
     public static ResultSet select(Connection connection, String sql, List<Object> values) {
         try {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
-            System.out.println(preparedStatement);
             return preparedStatement.executeQuery();
         } catch (Exception e) {
             throw new RuntimeException("Error executing sql statement: " + sql);

@@ -1,14 +1,14 @@
 package com.adrianLopez.proyectoPokemon.domain.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.adrianLopez.proyectoPokemon.domain.entity.Pokemon;
+import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.domain.service.PokemonService;
-import com.adrianLopez.proyectoPokemon.peristence.impl.PokemonRepository;
+import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
+import com.adrianLopez.proyectoPokemon.exception.ResourceNotFoundException;
 
 @Service
 public class PokemonServiceImpl implements PokemonService {
@@ -17,14 +17,19 @@ public class PokemonServiceImpl implements PokemonService {
     private PokemonRepository pokemonRepository;
  
     @Override
-    public List<Pokemon> getAll() {
-        return pokemonRepository.getAll();
+    public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
+        return pokemonRepository.getAll(page, pageSize);
     }
- 
+
     @Override
-    public Optional<Pokemon> find(int id) {
-        Optional<Pokemon> pokemon = pokemonRepository.find(id);
- 
-        return pokemon;
+    public List<PokemonDTO> getAll() {
+        return pokemonRepository.getAll(null, null);
+    }
+
+
+    @Override
+    public PokemonDTO find(int id) {
+        PokemonDTO pokemonDTO = pokemonRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Pokemon no encontrado con id: " + id));
+        return pokemonDTO;
     }
 }
