@@ -20,6 +20,9 @@ public class Pokemon {
         this.id = id;
         this.name = name;
     }
+
+    public Pokemon() {
+    }
  
  
     public int getId() {
