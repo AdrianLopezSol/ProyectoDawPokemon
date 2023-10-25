@@ -6,7 +6,8 @@ const pokemonImage = document.getElementById("pokemonImage");
 // Fetch Pokémon data from your API
 fetch("http://localhost:8080/pokemon")
     .then((response) => response.json())
-    .then((data) => {
+    .then((result) => {
+        const data = result.data;
         data.forEach((pokemon) => {
             const listItem = document.createElement("li");
             listItem.innerText = `${pokemon.id}: ${capitalizeFirstLetter(pokemon.name)}`;
@@ -19,13 +20,14 @@ fetch("http://localhost:8080/pokemon")
     function showDetails(pokemon) {
         fetch("http://localhost:8080/pokemon/"+pokemon.id)
         .then((response) => response.json())
-        .then((data) => {
+        .then((result) => {
+                const data = result.data;
                 detailsContainer.style.display = "block";
                 document.getElementById("pokemon-name").textContent = capitalizeFirstLetter(data.name);
                 document.getElementById("pokemon-id").textContent = data.id;
                 document.getElementById("pokemon-height").textContent = data.height/10 + "m";
                 document.getElementById("pokemon-weight").textContent = data.weight/10 + "kg";
-                document.getElementById("pokemon-base-experience").textContent = data.base_experience;
+                document.getElementById("pokemon-base-experience").textContent = data.exp;
             });
         
         // Set the image source based on the ID

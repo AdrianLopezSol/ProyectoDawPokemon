@@ -32,12 +32,6 @@ public class PokemonDAO {
             }
             return PokemonEntities;
         } catch (SQLException e) {
-            System.out.println("SQL");
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
-            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
     }
