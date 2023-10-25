@@ -16,4 +16,7 @@ public class PokemonEntity {
     private double height;
     private double weight;
     private int exp;
+
+    private int type_id1;
+    private int type_id2;
 }

@@ -24,7 +24,6 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
         try(Connection connection = DBUtil.open(true)) {
             List<PokemonEntity> PokemonEntities = pokemonDAO.findAll(connection, page, pageSize);
-            System.out.println("Before entities to dto map");
             List<PokemonDTO> PokemonDTOs = PokemonEntities.stream()
                     .map(PokemonMapper.mapper::toPokemonDTO)
                     .toList();
