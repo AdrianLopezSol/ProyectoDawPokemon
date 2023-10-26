@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.domain.service.PokemonService;
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
-import com.adrianLopez.proyectoPokemon.exception.ResourceNotFoundException;
 
 @Service
 public class PokemonServiceImpl implements PokemonService {
@@ -29,7 +28,7 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public PokemonDTO find(int id) {
-        PokemonDTO pokemonDTO = pokemonRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Pokemon no encontrado con id: " + id));
+        PokemonDTO pokemonDTO = pokemonRepository.find(id);
         return pokemonDTO;
     }
 }

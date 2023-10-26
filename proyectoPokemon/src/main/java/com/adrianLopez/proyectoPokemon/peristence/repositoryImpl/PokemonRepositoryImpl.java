@@ -3,7 +3,6 @@ package com.adrianLopez.proyectoPokemon.peristence.repositoryImpl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,13 +35,10 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     }
 
     @Override
-    public Optional<PokemonDTO> find(int id) {
+    public PokemonDTO find(int id) {
         try (Connection connection = DBUtil.open(true)){
-            Optional<PokemonEntity> PokemonEntity = pokemonDAO.find(connection, id);
-            if(PokemonEntity.isEmpty()) {
-                return Optional.empty();
-            }
-            return Optional.of(PokemonMapper.mapper.toPokemonDTO(PokemonEntity.get()));
+            PokemonEntity PokemonEntity = pokemonDAO.find(connection, id);
+            return PokemonMapper.mapper.toPokemonDTO(PokemonEntity);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
