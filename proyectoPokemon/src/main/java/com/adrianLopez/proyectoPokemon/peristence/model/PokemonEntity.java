@@ -19,4 +19,15 @@ public class PokemonEntity {
 
     private int type_id1;
     private int type_id2;
+
+    public void setTypes(Integer... types) {
+        switch (types.length) {
+            case 2:
+                this.type_id2 = types[1];
+                System.out.println(type_id2);
+            case 1:
+                this.type_id1 = types[0];
+                System.out.println(type_id1);
+        }
+    }
 }

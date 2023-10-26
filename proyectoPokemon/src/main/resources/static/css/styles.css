@@ -4,22 +4,44 @@
     list-style: none;
     padding: 0;
     flex-wrap: wrap;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
 #pokemon-list::after {
     content: "";
     flex: auto;
-  }
+}
 
-#pokemon-list li {
+.pokemon-element {
     cursor: pointer;
     margin: 5px;
     padding: 5px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
-    width: 5%;
-    height: auto;
+    width: auto; /* Let it adjust to content width */
+    text-align: center;
+}
+
+.pokemon-element:first-child {
+    display: none;
+}
+
+.list-sprite img {
+    max-width: 100px; /* Set the maximum width */
+    max-height: 200px; /* Set the maximum height */
+    display: block;
+    margin: 0 auto;
+}
+
+.list-title {
+    font-weight: bolder;
+}
+
+.list-type img {
+    max-width: 100px; /* Set the maximum width */
+    max-height: 100px; /* Set the maximum height */
+    display: block;
+    margin: 0 auto;
 }
 
 #details-container {

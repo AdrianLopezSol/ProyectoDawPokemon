@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -18,11 +19,17 @@ public class PokemonDAO {
     public List<PokemonEntity> findAll(Connection connection, Integer page, Integer pageSize) {
         List<Object> params = null;
         String sql = """
-                    SELECT pt.type_id, t.type_name, p.*
+                    SELECT
+                        GROUP_CONCAT(pt.type_id) AS type_ids,
+                        MIN(p.pok_id) AS pok_id,
+                        MIN(p.pok_name) AS pok_name,
+                        MIN(p.pok_weight) AS pok_weight,
+                        MIN(p.pok_height) AS pok_height,
+                        MIN(p.pok_base_experience) AS pok_base_experience
                     FROM pokemon_types pt
-                    INNER JOIN types t ON t.type_id = pt.type_id
                     INNER JOIN pokemon p ON p.pok_id = pt.pok_id
-                    ORDER BY pok_id;
+                    GROUP BY p.pok_id
+                    ORDER BY p.pok_id;
                 """;
         if (page != null) {
             int offset = (page - 1) * pageSize;
@@ -32,23 +39,16 @@ public class PokemonDAO {
         List<PokemonEntity> pokemonEntities = new ArrayList<>();
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, params);
-            resultSet.next();
-            while (true) {
+            while (resultSet.next()) {
                 PokemonEntity pokemonEntity = PokemonMapper.mapper.toPokemonEntity(resultSet);
-                if (resultSet.next()) {
-                    if (resultSet.getInt("pok_id") == pokemonEntity.getId()) {
-                        pokemonEntity.setType_id2(resultSet.getInt("type_id"));
-                        pokemonEntities.add(pokemonEntity);
-                        if (!resultSet.next()) {
-                            return pokemonEntities;
-                        }
-                    } else {
-                        pokemonEntities.add(pokemonEntity);
-                    }
-                } else {
-                    return pokemonEntities;
-                }
+                var typeIds = Arrays
+                        .stream(resultSet.getString("type_ids").split(","))
+                        .map(typeid -> Integer.parseInt(typeid))
+                        .toArray(Integer[]::new);
+                pokemonEntity.setTypes(typeIds);
+                pokemonEntities.add(pokemonEntity);
             }
+            return pokemonEntities;
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -56,25 +56,29 @@ public class PokemonDAO {
 
     public PokemonEntity find(Connection connection, int id) {
         final String sql = """
-                    SELECT pt.type_id, t.type_name, p.*
+                    SELECT
+                        GROUP_CONCAT(pt.type_id) AS type_ids,
+                        MIN(p.pok_id) AS pok_id,
+                        MIN(p.pok_name) AS pok_name,
+                        MIN(p.pok_weight) AS pok_weight,
+                        MIN(p.pok_height) AS pok_height,
+                        MIN(p.pok_base_experience) AS pok_base_experience
                     FROM pokemon_types pt
-                    INNER JOIN types t ON t.type_id = pt.type_id
                     INNER JOIN pokemon p ON p.pok_id = pt.pok_id
-                    WHERE p.pok_id = ? ORDER BY pok_id;
+                    WHERE p.pok_id = ?
+                    GROUP BY p.pok_id
+                    ORDER BY p.pok_id;
                 """;
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
             resultSet.next();
             PokemonEntity pokemonEntity = PokemonMapper.mapper.toPokemonEntity(resultSet);
-            if (resultSet.next()) {
-                pokemonEntity.setType_id2(resultSet.getInt("type_id"));
-                System.out.println(pokemonEntity.getType_id1());
-                System.out.println(pokemonEntity.getType_id2());
-                return pokemonEntity;
-            } else {
-                return pokemonEntity;
-            }
-
+            var typeIds = Arrays
+                    .stream(resultSet.getString("type_ids").split(","))
+                    .map(typeid -> Integer.parseInt(typeid))
+                    .toArray(Integer[]::new);
+            pokemonEntity.setTypes(typeIds);
+            return pokemonEntity;
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }

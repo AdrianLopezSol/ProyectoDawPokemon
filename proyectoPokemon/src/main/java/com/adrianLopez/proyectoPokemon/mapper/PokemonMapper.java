@@ -23,10 +23,9 @@ public interface PokemonMapper {
     @Mapping(target = "height", expression = "java(resultSet.getDouble(\"pok_height\"))")
     @Mapping(target = "weight", expression = "java(resultSet.getDouble(\"pok_weight\"))")
     @Mapping(target = "exp", expression = "java(resultSet.getInt(\"pok_base_experience\"))")
-    @Mapping(target = "type_id1", expression = "java(resultSet.getInt(\"type_id\"))")
     PokemonEntity toPokemonEntity(ResultSet resultSet) throws SQLException;
     
-    PokemonDTO toPokemonDTO(PokemonEntity PokemonEntity);
+    PokemonDTO toPokemonDTO(PokemonEntity PokemonEntity);       
     PokemonListWeb toPokemonListWeb(PokemonDTO PokemonDTO);
     PokemonDetailWeb toPokemonDetailWeb(PokemonDTO PokemonDTO);
     Pokemon toPokemon(PokemonDTO PokemonDTO);
