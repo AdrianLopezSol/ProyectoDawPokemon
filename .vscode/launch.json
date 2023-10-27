@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PokemonDataImporter",
+            "request": "launch",
+            "mainClass": "com.adrianLopez.proyectoPokemon.PokemonDataImporter",
+            "projectName": "proyectoPokemon"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ProyectoPokemonApplication<proyectoPokemon>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
