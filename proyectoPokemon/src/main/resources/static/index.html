@@ -14,14 +14,18 @@
             <div class="list-type"></div>
         </li>
     </ul>
-    <span id="details-container">
-        <h2 id="pokemon-name"></h2>
-        <img id="pokemonImage" src="" alt="Pokemon Image">
-        <p>ID: <span id="pokemon-id"></span></p>
-        <p>Height: <span id="pokemon-height"></span></p>
-        <p>Weight: <span id="pokemon-weight"></span></p>
-        <p>Base Experience: <span id="pokemon-base-experience"></span></p>
-    </span>
+    <div id="details-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-details">&times;</span>
+          <h2 id="pokemon-name"></h2>
+          <div id="pokemon-types"></div>
+          <p>ID: <span id="pokemon-id"></span></p>
+          <p>Height: <span id="pokemon-height"></span></p>
+          <p>Weight: <span id="pokemon-weight"></span></p>
+          <p>Base Experience: <span id="pokemon-base-experience"></span></p>
+          <img id="pokemon-image" src="" alt="Pokemon Image">
+        </div>
+      </div>
     <script src="js/script.js"></script>
 </body>
 </html>

@@ -43,5 +43,14 @@ public class PokemonRepositoryImpl implements PokemonRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int getTotalNumberOfRecords() {
+        try(Connection connection = DBUtil.open(true)) {
+            return pokemonDAO.getTotalNumberOfRecords(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
 }

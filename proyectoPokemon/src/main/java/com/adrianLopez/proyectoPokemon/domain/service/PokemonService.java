@@ -14,5 +14,7 @@ public interface PokemonService {
      public List<PokemonDTO> getAll();
 
      public PokemonDTO find(int id);
+
+     int getTotalNumberOfRecords();
     
 }

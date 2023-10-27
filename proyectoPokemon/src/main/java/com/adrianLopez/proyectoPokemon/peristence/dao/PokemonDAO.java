@@ -19,17 +19,17 @@ public class PokemonDAO {
     public List<PokemonEntity> findAll(Connection connection, Integer page, Integer pageSize) {
         List<Object> params = null;
         String sql = """
-                    SELECT
-                        GROUP_CONCAT(pt.type_id) AS type_ids,
-                        MIN(p.pok_id) AS pok_id,
-                        MIN(p.pok_name) AS pok_name,
-                        MIN(p.pok_weight) AS pok_weight,
-                        MIN(p.pok_height) AS pok_height,
-                        MIN(p.pok_base_experience) AS pok_base_experience
-                    FROM pokemon_types pt
-                    INNER JOIN pokemon p ON p.pok_id = pt.pok_id
-                    GROUP BY p.pok_id
-                    ORDER BY p.pok_id;
+            SELECT
+                GROUP_CONCAT(pt.type_id) AS type_ids,
+                MIN(p.pok_id) AS pok_id,
+                MIN(p.pok_name) AS pok_name,
+                MIN(p.pok_weight) AS pok_weight,
+                MIN(p.pok_height) AS pok_height,
+                MIN(p.pok_base_experience) AS pok_base_experience
+            FROM pokemon_types pt
+            INNER JOIN pokemon p ON p.pok_id = pt.pok_id
+            GROUP BY p.pok_id, p.pok_name, p.pok_weight, p.pok_height, p.pok_base_experience
+            ORDER BY p.pok_id
                 """;
         if (page != null) {
             int offset = (page - 1) * pageSize;
@@ -83,4 +83,16 @@ public class PokemonDAO {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    
+        public int getTotalNumberOfRecords(Connection connection) {
+            final String SQL = "SELECT COUNT(*) FROM pokemon";
+            try {
+                ResultSet resultSet = DBUtil.select(connection, SQL, null);
+                resultSet.next();
+                return resultSet.getInt(1);
+            } catch (SQLException e) {
+                throw new RuntimeException("SQL: " + SQL);
+            }
+        }
 }

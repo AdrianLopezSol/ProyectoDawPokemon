@@ -18,7 +18,6 @@ import java.util.Map;
 public class Response {
 
     private Object data;
-
     private Integer totalRecords;
 
     @JsonProperty("PaginationData")

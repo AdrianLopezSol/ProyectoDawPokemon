@@ -37,6 +37,7 @@ public class PokemonController {
         @GetMapping("")
         public Response getAll(@RequestParam(required = false) Integer page,
                         @RequestParam(required = false) Integer pageSize) {
+                int totalRecords = pokemonService.getTotalNumberOfRecords();
                 pageSize = (pageSize != null) ? pageSize : PAGE_SIZE;
                 List<PokemonDTO> pokemonDTOs = (page != null) ? pokemonService.getAll(page, pageSize)
                                 : pokemonService.getAll();
@@ -45,6 +46,7 @@ public class PokemonController {
                                 .toList();
                 Response response = Response.builder()
                                 .data(pokemonsWeb)
+                                .totalRecords(totalRecords)
                                 .build();
 
                 if (page != null) {

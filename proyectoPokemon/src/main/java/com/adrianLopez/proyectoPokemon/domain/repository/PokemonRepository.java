@@ -13,6 +13,8 @@ public interface PokemonRepository {
 
     public PokemonDTO find(int id);
 
+    public int getTotalNumberOfRecords();
+
 
     
 }

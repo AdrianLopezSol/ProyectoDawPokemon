@@ -31,4 +31,9 @@ public class PokemonServiceImpl implements PokemonService {
         PokemonDTO pokemonDTO = pokemonRepository.find(id);
         return pokemonDTO;
     }
+
+    @Override
+    public int getTotalNumberOfRecords() {
+        return pokemonRepository.getTotalNumberOfRecords();
+    }
 }
