@@ -30,8 +30,8 @@ public class Response {
         int totalPages = (int) (Math.ceil((double) totalRecords / pageSize));
         this.pagination.put("total pages", totalPages);
         if(page > 1 && totalPages > 1)
-            this.pagination.put("previous", url + "/movies?page=" + (page - 1));
+            this.pagination.put("previous", url + "/pokemon?page=" + (page - 1));
         if(page < totalPages)
-            this.pagination.put("next", url + "/movies?page=" + (page + 1));
+            this.pagination.put("next", url + "/pokemon?page=" + (page + 1));
     }
 }

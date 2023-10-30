@@ -32,7 +32,7 @@ public class PokemonDAO {
             }
             return pokemonEntities;
         } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException();
         }
     }
 
@@ -44,7 +44,7 @@ public class PokemonDAO {
             PokemonEntity pokemonEntity = PokemonMapper.mapper.toPokemonEntity(resultSet);
             return pokemonEntity;
         } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException();
         }
     }
 
