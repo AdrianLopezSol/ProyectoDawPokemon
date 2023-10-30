@@ -12,5 +12,6 @@ import lombok.Setter;
 public class TypeListWeb {
 
     private int id;
+    private String name;
     
 }
