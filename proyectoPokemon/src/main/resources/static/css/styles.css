@@ -66,6 +66,7 @@
   
 /* Style the modal content */
 .modal-content {
+    display: flex;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -82,6 +83,10 @@
     width: 200px;
     height: 200px;
   }
+
+  #content-block1 {
+    display: block;
+  }
   
   /* Style the close button */
   .close {
@@ -95,6 +100,20 @@
   /* Rest of your styles for the modal content */
   #pokemon-name {
     font-size: 24px;
+  }
+
+  #pokemon-stats {
+    text-align: left;
+  }
+
+  .progress-bar {
+    
+    height: 14px; /* Adjust the height as needed */
+    border-radius: 5px; /* Adds rounded edges */
+    background: linear-gradient(45deg, transparent 25%, rgba(0, 0, 0, 0.2) 25%, rgba(0, 0, 0, 0.2) 50%, transparent 50%, transparent 75%, rgba(0, 0, 0, 0.2) 75%, rgba(0, 0, 0, 0.2)); /* Adds stripes */
+    background-size: 20px 20px; /* Adjust the size of stripes as needed */
+    border: 1px solid #000; /* Adds a black outline */
+  
   }
   
   /* Add styles for other details as needed */

@@ -19,6 +19,7 @@ public class PokemonRepositoryImpl implements PokemonRepository {
 
     @Autowired
     PokemonDAO pokemonDAO;
+    
     @Override
     public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
         try(Connection connection = DBUtil.open(true)) {
@@ -26,7 +27,6 @@ public class PokemonRepositoryImpl implements PokemonRepository {
             List<PokemonDTO> PokemonDTOs = PokemonEntities.stream()
                     .map(PokemonMapper.mapper::toPokemonDTO)
                     .toList();
-            System.out.println("Reached repo");
             return PokemonDTOs;
 
         } catch (SQLException e) {

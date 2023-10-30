@@ -52,17 +52,5 @@ public class TypeDAO {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    
-        public int getTotalNumberOfRecords(Connection connection) {
-            final String SQL = "SELECT COUNT(*) FROM types";
-            try {
-                ResultSet resultSet = DBUtil.select(connection, SQL, null);
-                resultSet.next();
-                return resultSet.getInt(1);
-            } catch (SQLException e) {
-                throw new RuntimeException("SQL: " + SQL);
-            }
-        }
     
 }

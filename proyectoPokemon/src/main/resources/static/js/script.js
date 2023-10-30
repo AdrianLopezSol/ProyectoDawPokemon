@@ -36,7 +36,7 @@ function loadPokemonData() {
   loadPokemonData();
 
   function createPokemonListItem(pokemon) {
-    const { id, name, type_id1, type_id2 } = pokemon;
+    const { id, name, types } = pokemon;
   
     const listItem = document.querySelector(".pokemon-element").cloneNode(true);
     listItem.style.display = "block";
@@ -49,13 +49,11 @@ function loadPokemonData() {
     listSprite.appendChild(spriteImage);
   
     const listType = listItem.querySelector(".list-type");
-    const typeImages = [createImage(`img/types/${type_id1}.webp`, pokemon.type1)];
   
-    if (type_id2 !== 0) {
-      typeImages.push(createImage(`img/types/${type_id2}.webp`, pokemon.type2));
-    }
-  
-    typeImages.forEach((typeImage) => listType.appendChild(typeImage));
+    types.forEach((type) => {
+      const typeImage = createImage(`img/types/${type.id}.webp`);
+      listType.appendChild(typeImage);
+    });
   
     return listItem;
   }
@@ -92,39 +90,71 @@ function loadPokemonData() {
       .then((response) => response.json())
       .then((result) => {
         const data = result.data;
-        const modalName = document.getElementById("pokemon-name");
-        const modalID = document.getElementById("pokemon-id");
-        const modalHeight = document.getElementById("pokemon-height");
-        const modalWeight = document.getElementById("pokemon-weight");
-        const modalExp = document.getElementById("pokemon-base-experience");
-        const modalImage = document.getElementById("pokemon-image");
-        const modalTypes = document.getElementById("pokemon-types");
-
+        const modal = document.getElementById("pokemon-modal");
+        const typesImg = document.getElementById("pokemon-types");
   
-        modalName.textContent = capitalizeFirstLetter(data.name);
-        modalID.textContent = data.id;
-        modalHeight.textContent = data.height / 10 + "m";
-        modalWeight.textContent = data.weight / 10 + "kg";
-        modalExp.textContent = data.exp;
-        modalImage.src = `img/${pokemon.id}.webp`;
-
-        modalTypes.innerHTML = "";
-
-        const typeImages = [createImage(`img/types/${data.type_id1}.webp`, data.type1)];
-
-        if (data.type_id2 !== 0) {
-            typeImages.push(createImage(`img/types/${data.type_id2}.webp`, data.type2));
-        }
-
-        typeImages.forEach((typeImage) => modalTypes.appendChild(typeImage));
-    
-            detailsModal.style.display = "block";
+        const typeImages = data.types.map((type) => {
+          const typeImage = createImage(`img/types/${type.id}.webp`);
+          return typeImage.outerHTML; // Get the HTML of the image element
         });
+  
+        modal.innerHTML = `
+          <div class="modal-content">
+          <span class="close" id="close-details">&times;</span>
+            <div id="content-block1">
+              <h2>${capitalizeFirstLetter(data.name)}</h2>
+              <p>ID: ${data.id}</p>
+              <p>Height: ${(data.height / 10).toFixed(1)}m</p>
+              <p>Weight: ${(data.weight / 10).toFixed(1)}kg</p>
+              <p>Base Experience: ${data.exp}</p>
+              <img src="img/${pokemon.id}.webp" alt="${data.name}" id="pokemon-image">
+              <div id="pokemon-types">
+                ${typeImages.join('')}
+              </div>
+            </div>
+            <div id="pokemon-stats">
+            <p>HP: ${data.stats.hp}</p>
+            <div class="progress-bar" style="background-color: ${getProgressBarColor(data.stats.hp)}; width: ${calculateProgressBarWidth(data.stats.hp)};"></div>
+            <p>Attack: ${data.stats.atk}</p>
+            <div class="progress-bar" style="background-color: ${getProgressBarColor(data.stats.atk)}; width: ${calculateProgressBarWidth(data.stats.atk)};"></div>
+            <p>Defense: ${data.stats.def}</p>
+            <div class="progress-bar" style="background-color: ${getProgressBarColor(data.stats.def)}; width: ${calculateProgressBarWidth(data.stats.def)};"></div>
+            <p>Special Attack: ${data.stats.sp_atk}</p>
+            <div class="progress-bar" style="background-color: ${getProgressBarColor(data.stats.sp_atk)}; width: ${calculateProgressBarWidth(data.stats.sp_atk)};"></div>
+            <p>Special Defense: ${data.stats.sp_def}</p>
+            <div class="progress-bar" style="background-color: ${getProgressBarColor(data.stats.sp_def)}; width: ${calculateProgressBarWidth(data.stats.sp_def)};"></div>
+            <p>Speed: ${data.stats.speed}</p>
+            <div class="progress-bar" style="background-color: ${getProgressBarColor(data.stats.speed)}; width: ${calculateProgressBarWidth(data.stats.speed)};"></div>
+          </div>
+          </div>
+        `;
+  
+        modal.style.display = "flex";
+
+        const closeDetailsButton = document.getElementById("close-details");
+        closeDetailsButton.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+
+      });
+
+  }
+
+  function getProgressBarColor(statValue) {
+    if (statValue < 50) {
+      return "red";
+    } else if (statValue < 100) {
+      return "green";
+    } else if (statValue < 140) {
+      return "lightblue";
+    } else {
+      return "deepblue";
+    }
   }
   
-  closeDetailsButton.addEventListener("click", function () {
-    detailsModal.style.display = "none";
-  });
+  function calculateProgressBarWidth(statValue) {
+    return (statValue / 200) * 100 + "%";
+  }
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);

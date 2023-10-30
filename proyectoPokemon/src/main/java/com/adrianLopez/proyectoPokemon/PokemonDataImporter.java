@@ -1,91 +1,76 @@
-/* 
-ESTA CLASE SE HA UTILIZADO PARA REPOPULAR LA BASE DE DATOS, SE MANTIENE EN EL PROYECTO
-PARA FUTURAS ADICIONES QUE AUN NO SE HAN HECHO.
-
 package com.adrianLopez.proyectoPokemon;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+// ... (other imports and code)
+
 public class PokemonDataImporter {
 
     public static void main(String[] args) {
-        // Database connection parameters
-        String jdbcURL = "jdbc:mysql://localhost:3306/pokemon";
-        String dbUser = "root";
-        String dbPassword = "root";
+        // Set up your database connection
+        String jdbcUrl = "jdbc:mysql://localhost:3306/pokemon";
+        String username = "root";
+        String password = "root";
 
-        try {
-            Connection dbConnection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
+        try (Connection databaseConnection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            // Loop through Pokémon IDs
+            for (int pokemonId = 722; pokemonId <= 1017; pokemonId++) {
+                // Make an HTTP request to the PokeAPI
+                URL url = new URL("https://pokeapi.co/api/v2/pokemon/" + pokemonId);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("GET");
 
-            for (int id = 722; id <= 1017; id++) {
-                String apiUrl = "https://pokeapi.co/api/v2/pokemon/" + id;
-                URL url = new URL(apiUrl);
-                HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
-                httpConnection.setRequestMethod("GET");
+                if (httpURLConnection.getResponseCode() == 200) {
+                    // Read the response
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+                    StringBuilder responseBuilder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        responseBuilder.append(line);
+                    }
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
+                    // Parse the JSON response
+                    JSONObject json = new JSONObject(responseBuilder.toString());
 
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
+                    // Extract the stats you need from the "stats" array
+                    JSONArray stats = json.getJSONArray("stats");
+                    int hp = stats.getJSONObject(0).getInt("base_stat");  // HP is the first stat in the array
+                    int attack = stats.getJSONObject(1).getInt("base_stat");
+                    int defense = stats.getJSONObject(2).getInt("base_stat");
+                    int sp_attack = stats.getJSONObject(3).getInt("base_stat");
+                    int sp_defense = stats.getJSONObject(4).getInt("base_stat");
+                    int speed = stats.getJSONObject(5).getInt("base_stat");  // Attack is the second stat
+                    // Extract other stats in a similar way
+
+                    // Insert the stats into your database
+                    String insertSql = "INSERT INTO base_stats (pok_id, b_hp, b_atk, b_def, b_sp_atk, b_sp_def, b_speed) VALUES (?, ?, ?, ?, ? ,?, ?)";
+                    try (PreparedStatement preparedStatement = databaseConnection.prepareStatement(insertSql)) {
+                        preparedStatement.setInt(1, pokemonId);
+                        preparedStatement.setInt(2, hp);
+                        preparedStatement.setInt(3, attack);
+                        preparedStatement.setInt(4, defense);
+                        preparedStatement.setInt(5, sp_attack);
+                        preparedStatement.setInt(6, sp_defense);
+                        preparedStatement.setInt(7, speed);
+                        // Set parameters for other stats
+                        preparedStatement.executeUpdate();
+                    }
                 }
-                reader.close();
-
-                // Parse the JSON response
-                JSONObject jsonData = new JSONObject(response.toString());
-                JSONArray typesArray = jsonData.getJSONArray("types");
-
-                for (int i = 0; i < typesArray.length(); i++) {
-                    System.out.println(typesArray.get(i));
-                }
-
-                
-                // Insert data into the "pokemon_types" table
-                for (int i = 0; i < typesArray.length(); i++) {
-                    JSONObject typeData = typesArray.getJSONObject(i);
-                    String typeName = typeData.getJSONObject("type").getString("name");
-                    int typeId = getTypeID(dbConnection, typeName);
-                    int slot = i + 1;
-
-                    String insertQuery = "INSERT INTO pokemon_types (pok_id, type_id, slot) VALUES (?, ?, ?)";
-                    PreparedStatement preparedStatement = dbConnection.prepareStatement(insertQuery);
-                    preparedStatement.setInt(1, id);
-                    preparedStatement.setInt(2, typeId);
-                    preparedStatement.setInt(3, slot);
-                    preparedStatement.executeUpdate();
-                }
-
+                httpURLConnection.disconnect();
             }
-
-            dbConnection.close();
-        } catch (Exception e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
-
-    private static int getTypeID(Connection connection, String typeName) throws Exception {
-        // Get the type_id from the "type" table
-        String query = "SELECT type_id FROM types WHERE type_name = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, typeName);
-        int typeId = -1; // Initialize with a value that indicates an error
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            typeId = resultSet.getInt("type_id");
-        }
-
-        return typeId;
-    }
-} */
+}
