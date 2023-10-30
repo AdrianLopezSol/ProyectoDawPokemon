@@ -1,7 +1,5 @@
 package com.adrianLopez.proyectoPokemon.dto;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,14 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PokemonDTO {
+public class TypeDTO {
 
     private int id;
     private String name;
-    private double height;
-    private double weight;
-    private int exp;
-
-    private List<TypeDTO> types;
-    private StatsDTO stats;
 }

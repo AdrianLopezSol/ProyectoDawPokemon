@@ -1,5 +1,10 @@
 package com.adrianLopez.proyectoPokemon.controller.model.pokemon;
 
+import java.util.List;
+
+import com.adrianLopez.proyectoPokemon.controller.model.stats.StatsDetailWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.type.TypeListWeb;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +22,7 @@ public class PokemonDetailWeb {
     private double weight;
     private int exp;
 
-    private int type_id1;
-    private int type_id2;
+    private List<TypeListWeb> types;
+    private StatsDetailWeb stats;
     
 }

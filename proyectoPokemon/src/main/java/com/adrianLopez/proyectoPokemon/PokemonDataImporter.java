@@ -1,4 +1,8 @@
-/* package com.adrianLopez.proyectoPokemon;
+/* 
+ESTA CLASE SE HA UTILIZADO PARA REPOPULAR LA BASE DE DATOS, SE MANTIENE EN EL PROYECTO
+PARA FUTURAS ADICIONES QUE AUN NO SE HAN HECHO.
+
+package com.adrianLopez.proyectoPokemon;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
