@@ -2,7 +2,7 @@ package com.adrianLopez.proyectoPokemon.controller.model.pokemon;
 
 import java.util.List;
 
-import com.adrianLopez.proyectoPokemon.controller.model.type.TypeListWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.type.TypeDetailWeb;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class PokemonListWeb {
     private int id;
     private String name;
 
-    private List<TypeListWeb> types;
+    private List<TypeDetailWeb> types;
 
     
 }

@@ -7,7 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import com.adrianLopez.proyectoPokemon.controller.model.type.TypeListWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.type.TypeCreateWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.type.TypeDetailWeb;
 import com.adrianLopez.proyectoPokemon.domain.entity.Type;
 import com.adrianLopez.proyectoPokemon.dto.TypeDTO;
 import com.adrianLopez.proyectoPokemon.peristence.model.TypeEntity;
@@ -22,10 +23,11 @@ public interface TypeMapper {
     TypeEntity toTypeEntity(ResultSet resultSet) throws SQLException;
     
     TypeDTO toTypeDTO(TypeEntity TypeEntity);       
-    TypeListWeb toTypeListWeb(TypeDTO TypeDTO);
+    TypeDetailWeb toTypeDetailWeb(TypeDTO TypeDTO);
     Type toType(TypeDTO TypeDTO);
     TypeDTO toTypeDTO(Type Type);
     TypeEntity toTypeEntity(TypeDTO TypeDTO);
+    TypeDTO toTypeDTO(TypeCreateWeb typeCreateWeb);
     
     
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TypeListWeb {
+public class TypeCreateWeb {
 
     private int id;
     private String name;
