@@ -17,6 +17,6 @@ public class PokemonDTO {
     private double weight;
     private int exp;
 
-    private List<TypeDTO> types;
-    private StatsDTO stats;
+    private List<SlotPokemonDTO> slotPokemonDTOs;
+    private StatsDTO statsDTO;
 }

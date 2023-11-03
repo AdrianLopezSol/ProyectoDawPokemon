@@ -1,6 +1,7 @@
 package com.adrianLopez.proyectoPokemon.domain.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ public interface PokemonRepository {
 
     public List<PokemonDTO> getAll(Integer page, Integer pageSize);
 
-    public PokemonDTO find(int id);
+    public Optional<PokemonDTO> find(int id);
 
     public int getTotalNumberOfRecords();
 

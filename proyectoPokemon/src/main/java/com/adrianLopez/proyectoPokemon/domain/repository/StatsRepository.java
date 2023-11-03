@@ -1,5 +1,7 @@
 package com.adrianLopez.proyectoPokemon.domain.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
@@ -7,6 +9,6 @@ import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
 @Repository
 public interface StatsRepository {
 
-    public StatsDTO findByPokemonId(int id);
+    public Optional<StatsDTO> findByPokemonId(int id);
     
 }

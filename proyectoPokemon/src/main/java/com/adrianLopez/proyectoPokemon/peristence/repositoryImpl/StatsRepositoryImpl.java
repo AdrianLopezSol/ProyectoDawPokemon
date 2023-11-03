@@ -2,6 +2,7 @@ package com.adrianLopez.proyectoPokemon.peristence.repositoryImpl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,10 +21,13 @@ public class StatsRepositoryImpl implements StatsRepository {
     StatsDAO statsDAO;
 
     @Override
-    public StatsDTO findByPokemonId(int id) {
+    public Optional<StatsDTO> findByPokemonId(int id) {
         try (Connection connection= DBUtil.open(true)){
-            StatsEntity statsEntity = statsDAO.findByPokemonId(connection, id);
-            return StatsMapper.mapper.toStatsDTO(statsEntity);
+            Optional<StatsEntity> statsEntity = statsDAO.findByPokemonId(connection, id);
+            if (statsEntity.isEmpty()){
+                return Optional.empty();
+            }
+            return Optional.of(StatsMapper.mapper.toStatsDTO(statsEntity.get()));
         } catch (SQLException e) {
             throw new RuntimeException();
         }

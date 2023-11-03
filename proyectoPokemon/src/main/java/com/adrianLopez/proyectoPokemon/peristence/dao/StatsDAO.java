@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import com.adrianLopez.proyectoPokemon.peristence.model.StatsEntity;
 @Component
 public class StatsDAO {
 
-    public StatsEntity findByPokemonId(Connection connection, int id) {
+    public Optional<StatsEntity> findByPokemonId(Connection connection, int id) {
         final String sql = """
             SELECT s.*
                 FROM base_stats s
@@ -23,9 +24,7 @@ public class StatsDAO {
             """;
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
-            resultSet.next();
-            StatsEntity statsEntity = StatsMapper.mapper.toStatsEntity(resultSet);
-            return statsEntity;
+            return Optional.ofNullable(resultSet.next()? StatsMapper.mapper.toStatsEntity(resultSet):null);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }

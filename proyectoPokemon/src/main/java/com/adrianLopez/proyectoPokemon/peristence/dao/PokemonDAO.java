@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -36,27 +37,24 @@ public class PokemonDAO {
         }
     }
 
-    public PokemonEntity find(Connection connection, int id) {
+    public Optional<PokemonEntity> find(Connection connection, int id) {
         final String sql = "SELECT * FROM pokemon WHERE pok_id = ?";
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
-            resultSet.next();
-            PokemonEntity pokemonEntity = PokemonMapper.mapper.toPokemonEntity(resultSet);
-            return pokemonEntity;
+            return Optional.ofNullable(resultSet.next()? PokemonMapper.mapper.toPokemonEntity(resultSet):null);
         } catch (SQLException e) {
             throw new RuntimeException();
         }
     }
 
     
-        public int getTotalNumberOfRecords(Connection connection) {
-            final String SQL = "SELECT COUNT(*) FROM pokemon";
-            try {
-                ResultSet resultSet = DBUtil.select(connection, SQL, null);
-                resultSet.next();
-                return resultSet.getInt(1);
-            } catch (SQLException e) {
-                throw new RuntimeException("SQL: " + SQL);
-            }
+    public int getTotalNumberOfRecords(Connection connection) {
+        final String SQL = "SELECT COUNT(*) FROM pokemon";
+        try {                ResultSet resultSet = DBUtil.select(connection, SQL, null);
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL: " + SQL);
         }
+    }
 }

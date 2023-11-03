@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.adrianLopez.proyectoPokemon.controller.model.stats.StatsDetailWeb;
 import com.adrianLopez.proyectoPokemon.domain.entity.Stats;
 import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
 import com.adrianLopez.proyectoPokemon.peristence.model.StatsEntity;
@@ -28,6 +29,7 @@ public interface StatsMapper {
     Stats toStats(StatsDTO StatsDTO);
     StatsDTO toStatsDTO(Stats Stats);
     StatsEntity toStatsEntity(StatsDTO StatsDTO);
+    StatsDetailWeb toStatsDetailWeb(StatsDTO StatsDTO);
     
     
 }

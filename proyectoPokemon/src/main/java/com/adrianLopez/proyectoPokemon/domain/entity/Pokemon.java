@@ -20,10 +20,8 @@ public class Pokemon {
     private double weight;
     private int exp;
 
-    private List<Type> types;
+    private List<SlotPokemon> slotPokemons;
     private Stats stats;
 
- 
-    
 }
 

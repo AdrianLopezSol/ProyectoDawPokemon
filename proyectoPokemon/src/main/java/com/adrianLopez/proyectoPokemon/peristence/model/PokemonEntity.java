@@ -1,6 +1,10 @@
 package com.adrianLopez.proyectoPokemon.peristence.model;
 
+import java.sql.Connection;
 import java.util.List;
+
+import com.adrianLopez.proyectoPokemon.peristence.dao.SlotPokemonDAO;
+import com.adrianLopez.proyectoPokemon.peristence.dao.StatsDAO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +23,21 @@ public class PokemonEntity {
     private double weight;
     private int exp;
 
-    private List<TypeEntity> types;
-    private StatsEntity stats;
+    private List<SlotPokemonEntity> slotPokemonEntities;
+    private StatsEntity statsEntity;
+
+    public StatsEntity getStatsEntity(Connection connection, StatsDAO statsDAO) {
+        if(this.statsEntity == null) {
+            this.statsEntity = statsDAO.findByPokemonId(connection, id).orElse(null);
+        }
+        return this.statsEntity;
+    }
+
+    public List<SlotPokemonEntity> getSlotPokemonEntities(Connection connection, SlotPokemonDAO slotPokemonDAO) {
+        if(this.slotPokemonEntities == null) {
+            this.slotPokemonEntities = slotPokemonDAO.findByPokemonId(connection, id);
+        }
+        return this.slotPokemonEntities;
+    }
 
 }
