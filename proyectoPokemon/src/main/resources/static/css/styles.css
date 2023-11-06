@@ -7,6 +7,11 @@
     justify-content: space-between;
 }
 
+body{
+  text-align: center;
+  background-color: #fafafa;
+}
+
 #pokemon-list::after {
     content: "";
     flex: auto;
@@ -24,10 +29,10 @@
     margin: 5px;
     padding: 5px;
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
+    background-color: #fff;
     width: auto; /* Let it adjust to content width */
     text-align: center;
-}
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;}
 
 .pokemon-element:first-child {
     display: none;
