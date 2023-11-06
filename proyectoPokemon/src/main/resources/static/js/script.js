@@ -36,7 +36,7 @@ function loadPokemonData() {
   loadPokemonData();
 
   function createPokemonListItem(pokemon) {
-    const { id, name, types } = pokemon;
+    const { id, name, slots } = pokemon;
   
     const listItem = document.querySelector(".pokemon-element").cloneNode(true);
     listItem.style.display = "block";
@@ -50,8 +50,8 @@ function loadPokemonData() {
   
     const listType = listItem.querySelector(".list-type");
   
-    types.forEach((type) => {
-      const typeImage = createImage(`img/types/${type.id}.webp`);
+    slots.forEach((slot) => {
+      const typeImage = createImage(`img/types/${slot.type.id}.webp`);
       listType.appendChild(typeImage);
     });
   
@@ -91,10 +91,9 @@ function loadPokemonData() {
       .then((result) => {
         const data = result.data;
         const modal = document.getElementById("pokemon-modal");
-        const typesImg = document.getElementById("pokemon-types");
   
-        const typeImages = data.types.map((type) => {
-          const typeImage = createImage(`img/types/${type.id}.webp`);
+        const typeImages = data.slots.map((slot) => {
+          const typeImage = createImage(`img/types/${slot.type.id}.webp`);
           return typeImage.outerHTML; // Get the HTML of the image element
         });
   

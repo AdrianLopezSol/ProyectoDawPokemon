@@ -25,6 +25,7 @@ public interface SlotPokemonMapper {
 
 
     @Mapping(target = "slot", expression = "java(resultSet.getInt(\"slot\"))")
+    @Mapping(target = "typeEntity", ignore = true)
     SlotPokemonEntity toSlotPokemonEntity(ResultSet resultSet) throws SQLException;
 
     @Named("TypeEntityToTypeDTO")
@@ -32,7 +33,7 @@ public interface SlotPokemonMapper {
         return TypeMapper.mapper.toTypeDTO(typeEntity);
     }
 
-    @Mapping(target = "typeListWeb", expression = "java(mapTypeDTOtoTypeListWeb(slotPokemonDTO.getTypeDTO()))")
+    @Mapping(target = "type", expression = "java(mapTypeDTOtoTypeListWeb(slotPokemonDTO.getTypeDTO()))")
     SlotPokemonWeb toSlotPokemonWeb(SlotPokemonDTO slotPokemonDTO);
 
     @Named("TypeDTOtoTypeListWeb")

@@ -14,6 +14,6 @@ import lombok.Setter;
 public class SlotPokemonWeb {
 
     private int slot;
-    private TypeListWeb typeListWeb;
+    private TypeListWeb type;
 
 }

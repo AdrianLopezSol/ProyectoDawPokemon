@@ -58,7 +58,6 @@ public class PokemonController {
         @ResponseStatus(HttpStatus.OK)
         @GetMapping("/{id}")
         public Response find(@PathVariable("id") int id) {
-                System.out.println(PokemonMapper.mapper.toPokemonDetailWeb(pokemonService.find(id)).getStatsDetailWeb().getAtk());
                 return Response.builder()
                                 .data(PokemonMapper.mapper.toPokemonDetailWeb(pokemonService.find(id)))
                                 .build();

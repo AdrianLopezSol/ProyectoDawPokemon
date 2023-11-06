@@ -36,12 +36,16 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     @Override
     public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
         try(Connection connection = DBUtil.open(true)) {
-            List<PokemonEntity> PokemonEntities = pokemonDAO.findAll(connection, page, pageSize);
-            List<PokemonDTO> PokemonDTOs = PokemonEntities.stream()
-                    .map(pokemonEntity -> pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO))
-                    .map(PokemonMapper.mapper::toPokemonDTO)
-                    .toList();
-            return PokemonDTOs;
+            List<PokemonEntity> pokemonEntities = pokemonDAO.findAll(connection, page, pageSize);
+            List<PokemonDTO> pokemonDTOs = pokemonEntities.stream()
+            .map(pokemonEntity -> {
+                pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO).forEach(slotPokemonEntity -> {
+                    slotPokemonEntity.getTypeEntity(connection, typeDAO, pokemonEntity.getId());
+                });
+                return PokemonMapper.mapper.toPokemonDTO(pokemonEntity);
+            })
+            .toList();
+            return pokemonDTOs;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

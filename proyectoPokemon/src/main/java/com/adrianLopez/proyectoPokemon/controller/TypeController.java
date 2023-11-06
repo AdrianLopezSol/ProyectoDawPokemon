@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.adrianLopez.proyectoPokemon.controller.model.type.TypeCreateWeb;
-import com.adrianLopez.proyectoPokemon.controller.model.type.TypeDetailWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.type.TypeListWeb;
 import com.adrianLopez.proyectoPokemon.domain.service.TypeService;
 import com.adrianLopez.proyectoPokemon.dto.TypeDTO;
 import com.adrianLopez.proyectoPokemon.http_response.Response;
@@ -35,7 +32,7 @@ public class TypeController {
         @GetMapping("")
         public Response getAll() {
             List<TypeDTO> typeDTOs = typeService.findAll();
-            List<TypeDetailWeb> typesWeb = typeDTOs.stream()
+            List<TypeListWeb> typesWeb = typeDTOs.stream()
                 .map(TypeMapper.mapper::toTypeDetailWeb)
                 .toList();
             Response response = Response.builder()

@@ -27,6 +27,8 @@ public interface PokemonMapper {
     @Mapping(target = "height", expression = "java(resultSet.getDouble(\"pok_height\"))")
     @Mapping(target = "weight", expression = "java(resultSet.getDouble(\"pok_weight\"))")
     @Mapping(target = "exp", expression = "java(resultSet.getInt(\"pok_base_experience\"))")
+    @Mapping(target = "slotPokemonEntities", ignore = true)
+    @Mapping(target = "statsEntity", ignore = true)
     PokemonEntity toPokemonEntity(ResultSet resultSet) throws SQLException;
 
     @Mapping(target = "statsDTO", expression = "java(StatsMapper.mapper.toStatsDTO(pokemonEntity.getStatsEntity()))")
@@ -50,11 +52,11 @@ public interface PokemonMapper {
                 .toList();
     }
 
-    @Mapping(target = "slotPokemonWebs", expression = "java(mapSlotPokemonDTOToSlotPokemonWeb(PokemonDTO.getSlotPokemonDTOs()))")
+    @Mapping(target = "slots", expression = "java(mapSlotPokemonDTOToSlotPokemonWeb(PokemonDTO.getSlotPokemonDTOs()))")
     PokemonListWeb toPokemonListWeb(PokemonDTO PokemonDTO);
 
-    @Mapping(target = "slotPokemonWebs", expression = "java(mapSlotPokemonDTOToSlotPokemonWeb(PokemonDTO.getSlotPokemonDTOs()))")
-    @Mapping(target = "statsDetailWeb", expression = "java(StatsMapper.mapper.toStatsDetailWeb(PokemonDTO.getStatsDTO()))")
+    @Mapping(target = "slots", expression = "java(mapSlotPokemonDTOToSlotPokemonWeb(PokemonDTO.getSlotPokemonDTOs()))")
+    @Mapping(target = "stats", expression = "java(StatsMapper.mapper.toStatsDetailWeb(PokemonDTO.getStatsDTO()))")
     PokemonDetailWeb toPokemonDetailWeb(PokemonDTO PokemonDTO);
     
 }

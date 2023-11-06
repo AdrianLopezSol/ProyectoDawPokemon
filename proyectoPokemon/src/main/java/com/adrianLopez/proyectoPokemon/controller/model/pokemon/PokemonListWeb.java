@@ -18,7 +18,7 @@ public class PokemonListWeb {
     private int id;
     private String name;
 
-    private List<SlotPokemonWeb> slotPokemonWebs;
+    private List<SlotPokemonWeb> slots;
 
     
 }

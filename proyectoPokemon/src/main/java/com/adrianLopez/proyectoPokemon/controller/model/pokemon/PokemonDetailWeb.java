@@ -22,7 +22,7 @@ public class PokemonDetailWeb {
     private double weight;
     private int exp;
 
-    private List<SlotPokemonWeb> slotPokemonWebs;
-    private StatsDetailWeb statsDetailWeb;
+    private List<SlotPokemonWeb> slots;
+    private StatsDetailWeb stats;
     
 }
