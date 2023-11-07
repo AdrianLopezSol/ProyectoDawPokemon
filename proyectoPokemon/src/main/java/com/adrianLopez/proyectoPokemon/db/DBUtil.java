@@ -1,6 +1,5 @@
 package com.adrianLopez.proyectoPokemon.db;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,26 +20,25 @@ public class DBUtil {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    public static Connection open(boolean autoCommit){
+    public static Connection open(boolean autoCommit) {
         try {
             Connection connection = DriverManager.getConnection(
                     URL_CONNECTION,
                     USERNAME,
-                    PASSWORD
-            );
+                    PASSWORD);
             connection.setAutoCommit(autoCommit);
             return connection;
         } catch (SQLException e) {
-            throw new DBConnectionException("Connection paramaters :\n\n" + getParameters() + "\nOriginal exception message: " + e.getMessage());
+            throw new DBConnectionException("Connection paramaters :\n\n" + getParameters()
+                    + "\nOriginal exception message: " + e.getMessage());
         }
     }
 
-    private static String getParameters (){
+    private static String getParameters() {
         return String.format("url: %s\nUser: %s\nPassword: %s\n",
                 URL_CONNECTION,
                 USERNAME,
-                PASSWORD
-        );
+                PASSWORD);
     }
 
     public static void close(Connection connection) {
@@ -65,7 +63,7 @@ public class DBUtil {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
                 throw new RuntimeException("Cannot read last generated id");
@@ -74,7 +72,6 @@ public class DBUtil {
             throw new SQLStatementException("SQL: " + sql);
         }
     }
-
 
     public static int update(Connection connection, String sql, List<Object> values) {
         try {
@@ -86,13 +83,13 @@ public class DBUtil {
         }
     }
 
-    private static PreparedStatement setParameters(Connection connection, String sql, List<Object> values){
+    private static PreparedStatement setParameters(Connection connection, String sql, List<Object> values) {
         try {
-            PreparedStatement preparedStatement =  connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            if(values != null) {
-                for(int i=0;i<values.size();i++) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            if (values != null) {
+                for (int i = 0; i < values.size(); i++) {
                     Object value = values.get(i);
-                    preparedStatement.setObject(i+1,value);
+                    preparedStatement.setObject(i + 1, value);
                 }
             }
             return preparedStatement;

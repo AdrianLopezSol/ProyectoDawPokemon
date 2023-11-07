@@ -15,10 +15,10 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Autowired
     private PokemonRepository pokemonRepository;
- 
+
     @Override
     public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
-        return pokemonRepository.getAll(page, pageSize);        
+        return pokemonRepository.getAll(page, pageSize);
     }
 
     @Override
@@ -26,10 +26,10 @@ public class PokemonServiceImpl implements PokemonService {
         return pokemonRepository.getAll(null, null);
     }
 
-
     @Override
     public PokemonDTO find(int id) {
-        PokemonDTO pokemonDTO = pokemonRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Pokemon not found with id: " + id));
+        PokemonDTO pokemonDTO = pokemonRepository.find(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pokemon not found with id: " + id));
         return pokemonDTO;
     }
 

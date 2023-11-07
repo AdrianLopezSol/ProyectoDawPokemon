@@ -23,7 +23,7 @@ public class TypeRepositoryImpl implements TypeRepository {
 
     @Override
     public List<TypeDTO> findAll() {
-        try(Connection connection = DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             List<TypeEntity> typeEntities = typeDAO.findAll(connection);
             List<TypeDTO> typeDTOs = typeEntities.stream()
                     .map(TypeMapper.mapper::toTypeDTO)
@@ -37,7 +37,7 @@ public class TypeRepositoryImpl implements TypeRepository {
 
     @Override
     public List<TypeDTO> findByPokemonId(int id) {
-        try (Connection connection= DBUtil.open(true)){
+        try (Connection connection = DBUtil.open(true)) {
             List<TypeEntity> typeEntities = typeDAO.findByPokemonId(connection, id);
             List<TypeDTO> typeDTOs = typeEntities.stream()
                     .map(TypeMapper.mapper::toTypeDTO)
@@ -50,7 +50,7 @@ public class TypeRepositoryImpl implements TypeRepository {
 
     @Override
     public int insert(TypeDTO typeDTO) {
-        try (Connection connection = DBUtil.open(true)){
+        try (Connection connection = DBUtil.open(true)) {
             return typeDAO.insert(connection, TypeMapper.mapper.toTypeEntity(typeDTO));
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -59,7 +59,7 @@ public class TypeRepositoryImpl implements TypeRepository {
 
     @Override
     public void update(TypeDTO typeDTO) {
-        try(Connection connection= DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             typeDAO.update(connection, TypeMapper.mapper.toTypeEntity(typeDTO));
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,7 +68,7 @@ public class TypeRepositoryImpl implements TypeRepository {
 
     @Override
     public void delete(int id) {
-        try(Connection connection= DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             typeDAO.delete(connection, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -77,9 +77,9 @@ public class TypeRepositoryImpl implements TypeRepository {
 
     @Override
     public Optional<TypeDTO> find(int id) {
-        try (Connection connection= DBUtil.open(true)){
+        try (Connection connection = DBUtil.open(true)) {
             Optional<TypeEntity> typeEntity = typeDAO.find(connection, id);
-            if (typeEntity.isEmpty()){
+            if (typeEntity.isEmpty()) {
                 return Optional.empty();
             }
             return Optional.of(TypeMapper.mapper.toTypeDTO(typeEntity.get()));

@@ -27,14 +27,19 @@ public interface StatsMapper {
     @Mapping(target = "speed", expression = "java(resultSet.getInt(\"b_speed\"))")
     @Mapping(target = "pok_id", expression = "java(resultSet.getInt(\"pok_id\"))")
     StatsEntity toStatsEntity(ResultSet resultSet) throws SQLException;
-    
-    StatsDTO toStatsDTO(StatsEntity StatsEntity);       
+
+    StatsDTO toStatsDTO(StatsEntity StatsEntity);
+
     Stats toStats(StatsDTO StatsDTO);
+
     StatsDTO toStatsDTO(Stats Stats);
+
     StatsDTO toStatsDTO(StatsCreateWeb statsCreateWeb);
+
     StatsDTO toStatsDTO(StatsUpdateWeb statsUpdateWeb);
+
     StatsEntity toStatsEntity(StatsDTO StatsDTO);
+
     StatsDetailWeb toStatsDetailWeb(StatsDTO StatsDTO);
-    
-    
+
 }

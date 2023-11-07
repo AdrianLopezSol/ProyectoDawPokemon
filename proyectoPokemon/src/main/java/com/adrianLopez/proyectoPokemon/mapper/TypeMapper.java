@@ -23,16 +23,21 @@ public interface TypeMapper {
     @Mapping(target = "id", expression = "java(resultSet.getInt(\"type_id\"))")
     @Mapping(target = "name", expression = "java(resultSet.getString(\"type_name\"))")
     TypeEntity toTypeEntity(ResultSet resultSet) throws SQLException;
-    
-    TypeDTO toTypeDTO(TypeEntity TypeEntity);       
+
+    TypeDTO toTypeDTO(TypeEntity TypeEntity);
+
     TypeDetailWeb toTypeDetailWeb(TypeDTO TypeDTO);
+
     Type toType(TypeDTO TypeDTO);
+
     TypeDTO toTypeDTO(Type Type);
+
     TypeEntity toTypeEntity(TypeDTO TypeDTO);
+
     TypeDTO toTypeDTO(TypeCreateWeb typeCreateWeb);
+
     TypeDTO toTypeDTO(TypeUpdateWeb typeUpdateWeb);
+
     TypeListWeb toTypeListWeb(TypeDTO TypeDTO);
 
-    
-    
 }

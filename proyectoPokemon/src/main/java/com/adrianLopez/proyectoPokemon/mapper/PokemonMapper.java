@@ -37,7 +37,7 @@ public interface PokemonMapper {
 
     @Named("SlotPokemonEntitiesToSlotPokemonDTOs")
     default List<SlotPokemonDTO> mapSlotPokemonEntitiesToSlotPokemonDTOs(List<SlotPokemonEntity> slotPokemonEntities) {
-        if(slotPokemonEntities == null) {
+        if (slotPokemonEntities == null) {
             return null;
         }
         return slotPokemonEntities.stream()
@@ -58,5 +58,5 @@ public interface PokemonMapper {
     @Mapping(target = "slots", expression = "java(mapSlotPokemonDTOToSlotPokemonWeb(PokemonDTO.getSlotPokemonDTOs()))")
     @Mapping(target = "stats", expression = "java(StatsMapper.mapper.toStatsDetailWeb(PokemonDTO.getStatsDTO()))")
     PokemonDetailWeb toPokemonDetailWeb(PokemonDTO PokemonDTO);
-    
+
 }

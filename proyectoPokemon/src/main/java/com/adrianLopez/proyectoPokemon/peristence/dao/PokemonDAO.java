@@ -41,16 +41,16 @@ public class PokemonDAO {
         final String sql = "SELECT * FROM pokemon WHERE pok_id = ?";
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
-            return Optional.ofNullable(resultSet.next()? PokemonMapper.mapper.toPokemonEntity(resultSet):null);
+            return Optional.ofNullable(resultSet.next() ? PokemonMapper.mapper.toPokemonEntity(resultSet) : null);
         } catch (SQLException e) {
             throw new RuntimeException();
         }
     }
 
-    
     public int getTotalNumberOfRecords(Connection connection) {
         final String SQL = "SELECT COUNT(*) FROM pokemon";
-        try {                ResultSet resultSet = DBUtil.select(connection, SQL, null);
+        try {
+            ResultSet resultSet = DBUtil.select(connection, SQL, null);
             resultSet.next();
             return resultSet.getInt(1);
         } catch (SQLException e) {

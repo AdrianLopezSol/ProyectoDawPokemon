@@ -32,19 +32,19 @@ public class PokemonRepositoryImpl implements PokemonRepository {
 
     @Autowired
     SlotPokemonDAO slotPokemonDAO;
-    
+
     @Override
     public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
-        try(Connection connection = DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             List<PokemonEntity> pokemonEntities = pokemonDAO.findAll(connection, page, pageSize);
             List<PokemonDTO> pokemonDTOs = pokemonEntities.stream()
-            .map(pokemonEntity -> {
-                pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO).forEach(slotPokemonEntity -> {
-                    slotPokemonEntity.getTypeEntity(connection, typeDAO, pokemonEntity.getId());
-                });
-                return PokemonMapper.mapper.toPokemonDTO(pokemonEntity);
-            })
-            .toList();
+                    .map(pokemonEntity -> {
+                        pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO).forEach(slotPokemonEntity -> {
+                            slotPokemonEntity.getTypeEntity(connection, typeDAO, pokemonEntity.getId());
+                        });
+                        return PokemonMapper.mapper.toPokemonDTO(pokemonEntity);
+                    })
+                    .toList();
             return pokemonDTOs;
 
         } catch (SQLException e) {
@@ -54,11 +54,13 @@ public class PokemonRepositoryImpl implements PokemonRepository {
 
     @Override
     public Optional<PokemonDTO> find(int id) {
-        try (Connection connection = DBUtil.open(true)){
+        try (Connection connection = DBUtil.open(true)) {
             PokemonEntity pokemonEntity = pokemonDAO.find(connection, id).get();
-            if(pokemonEntity != null) {
+            if (pokemonEntity != null) {
                 pokemonEntity.getStatsEntity(connection, statsDAO);
-                pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO).forEach(SlotPokemonEntity -> SlotPokemonEntity.getTypeEntity(connection, typeDAO, pokemonEntity.getId()));
+                pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO)
+                        .forEach(SlotPokemonEntity -> SlotPokemonEntity.getTypeEntity(connection, typeDAO,
+                                pokemonEntity.getId()));
             }
             Optional<PokemonDTO> response = Optional.ofNullable(PokemonMapper.mapper.toPokemonDTO(pokemonEntity));
             return response;
@@ -69,11 +71,11 @@ public class PokemonRepositoryImpl implements PokemonRepository {
 
     @Override
     public int getTotalNumberOfRecords() {
-        try(Connection connection = DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             return pokemonDAO.getTotalNumberOfRecords(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

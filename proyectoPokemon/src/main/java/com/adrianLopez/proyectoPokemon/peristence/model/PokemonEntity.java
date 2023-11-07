@@ -27,14 +27,14 @@ public class PokemonEntity {
     private StatsEntity statsEntity;
 
     public StatsEntity getStatsEntity(Connection connection, StatsDAO statsDAO) {
-        if(this.statsEntity == null) {
+        if (this.statsEntity == null) {
             this.statsEntity = statsDAO.find(connection, id).orElse(null);
         }
         return this.statsEntity;
     }
 
     public List<SlotPokemonEntity> getSlotPokemonEntities(Connection connection, SlotPokemonDAO slotPokemonDAO) {
-        if(this.slotPokemonEntities == null) {
+        if (this.slotPokemonEntities == null) {
             this.slotPokemonEntities = slotPokemonDAO.findByPokemonId(connection, id);
         }
         return this.slotPokemonEntities;

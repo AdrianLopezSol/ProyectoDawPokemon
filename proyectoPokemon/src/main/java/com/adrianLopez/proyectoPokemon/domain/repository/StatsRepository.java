@@ -16,5 +16,5 @@ public interface StatsRepository {
     public void update(StatsDTO statsDTO);
 
     public void delete(int id);
-    
+
 }

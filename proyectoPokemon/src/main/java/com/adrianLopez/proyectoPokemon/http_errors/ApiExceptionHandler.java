@@ -50,7 +50,6 @@ public class ApiExceptionHandler {
         return new ErrorMessage("DB timeout exception", HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
-
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({
             Exception.class,
@@ -60,5 +59,5 @@ public class ApiExceptionHandler {
         exception.printStackTrace();
         return new ErrorMessage("Internal error", HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
-    
+
 }

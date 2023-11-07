@@ -11,12 +11,12 @@ import com.adrianLopez.proyectoPokemon.dto.TypeDTO;
 import com.adrianLopez.proyectoPokemon.exception.ResourceNotFoundException;
 
 @Service
-public class TypeServiceImpl implements TypeService{
+public class TypeServiceImpl implements TypeService {
 
     @Autowired
     private TypeRepository typeRepository;
 
-    public List<TypeDTO> findAll(){
+    public List<TypeDTO> findAll() {
         return typeRepository.findAll();
     }
 
@@ -27,7 +27,8 @@ public class TypeServiceImpl implements TypeService{
 
     @Override
     public void update(TypeDTO typeDTO) {
-        typeRepository.find(typeDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Tipo no encontrado con el id: " + typeDTO.getId()));
+        typeRepository.find(typeDTO.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Tipo no encontrado con el id: " + typeDTO.getId()));
         typeRepository.update(typeDTO);
     }
 
@@ -39,8 +40,8 @@ public class TypeServiceImpl implements TypeService{
 
     @Override
     public TypeDTO find(int id) {
-        return typeRepository.find(id).orElseThrow(() -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + id));
+        return typeRepository.find(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + id));
     }
-    
-    
+
 }

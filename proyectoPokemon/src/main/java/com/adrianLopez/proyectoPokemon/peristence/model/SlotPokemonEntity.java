@@ -23,7 +23,7 @@ public class SlotPokemonEntity {
     }
 
     public TypeEntity getTypeEntity(Connection connection, TypeDAO typeDAO, int pok_id) {
-        if(this.typeEntity == null) {
+        if (this.typeEntity == null) {
             this.typeEntity = typeDAO.findByPokemonIdAndSlot(connection, pok_id, this.slot).orElse(null);
         }
         return typeEntity;

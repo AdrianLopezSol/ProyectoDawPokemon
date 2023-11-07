@@ -20,7 +20,7 @@ public class StatsDAO {
         final String sql = "SELECT * FROM base_stats WHERE pok_id = ?";
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
-            return Optional.ofNullable(resultSet.next()? StatsMapper.mapper.toStatsEntity(resultSet):null);
+            return Optional.ofNullable(resultSet.next() ? StatsMapper.mapper.toStatsEntity(resultSet) : null);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -28,9 +28,9 @@ public class StatsDAO {
 
     public void update(Connection connection, StatsEntity statsEntity) {
         final String SQL = """
-            UPDATE base_stats SET b_hp = ?, b_atk = ?, b_def = ?,
-                b_sp_atk = ?, b_sp_def = ?, b_speed = ? WHERE pok_id = ?
-        """;
+                    UPDATE base_stats SET b_hp = ?, b_atk = ?, b_def = ?,
+                        b_sp_atk = ?, b_sp_def = ?, b_speed = ? WHERE pok_id = ?
+                """;
         List<Object> params = new ArrayList<>();
         params.add(statsEntity.getHp());
         params.add(statsEntity.getAtk());
@@ -62,5 +62,5 @@ public class StatsDAO {
         int id = DBUtil.insert(connection, SQL, params);
         return id;
     }
-    
+
 }

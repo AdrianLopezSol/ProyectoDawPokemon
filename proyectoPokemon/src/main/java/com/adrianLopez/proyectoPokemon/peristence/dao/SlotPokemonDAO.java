@@ -18,12 +18,12 @@ public class SlotPokemonDAO {
     public List<SlotPokemonEntity> findByPokemonId(Connection connection, int id) {
         List<SlotPokemonEntity> slotPokemonEntities = new ArrayList<>();
         final String SQL = """
-                SELECT pt.slot FROM pokemon_types pt
-                INNER JOIN pokemon p ON p.pok_id = pt.pok_id AND p.pok_id = ?
-            """;
+                    SELECT pt.slot FROM pokemon_types pt
+                    INNER JOIN pokemon p ON p.pok_id = pt.pok_id AND p.pok_id = ?
+                """;
         try {
             ResultSet resultSet = DBUtil.select(connection, SQL, List.of(id));
-            if(!resultSet.next()) {
+            if (!resultSet.next()) {
                 return null;
             }
             do {
@@ -34,5 +34,5 @@ public class SlotPokemonDAO {
             throw new RuntimeException();
         }
     }
-    
+
 }

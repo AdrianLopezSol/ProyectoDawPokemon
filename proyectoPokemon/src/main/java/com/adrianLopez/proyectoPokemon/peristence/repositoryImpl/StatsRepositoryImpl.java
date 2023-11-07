@@ -22,9 +22,9 @@ public class StatsRepositoryImpl implements StatsRepository {
 
     @Override
     public Optional<StatsDTO> find(int id) {
-        try (Connection connection= DBUtil.open(true)){
+        try (Connection connection = DBUtil.open(true)) {
             Optional<StatsEntity> statsEntity = statsDAO.find(connection, id);
-            if (statsEntity.isEmpty()){
+            if (statsEntity.isEmpty()) {
                 return Optional.empty();
             }
             return Optional.of(StatsMapper.mapper.toStatsDTO(statsEntity.get()));
@@ -35,7 +35,7 @@ public class StatsRepositoryImpl implements StatsRepository {
 
     @Override
     public int insert(StatsDTO statsDTO) {
-        try (Connection connection = DBUtil.open(true)){
+        try (Connection connection = DBUtil.open(true)) {
             return statsDAO.insert(connection, StatsMapper.mapper.toStatsEntity(statsDTO));
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -44,7 +44,7 @@ public class StatsRepositoryImpl implements StatsRepository {
 
     @Override
     public void update(StatsDTO statsDTO) {
-        try(Connection connection= DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(statsDTO));
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -53,11 +53,11 @@ public class StatsRepositoryImpl implements StatsRepository {
 
     @Override
     public void delete(int id) {
-        try(Connection connection= DBUtil.open(true)) {
+        try (Connection connection = DBUtil.open(true)) {
             statsDAO.delete(connection, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

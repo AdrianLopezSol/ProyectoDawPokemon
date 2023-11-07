@@ -13,5 +13,5 @@ public class TypeCreateWeb {
 
     private int id;
     private String name;
-    
+
 }

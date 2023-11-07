@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-@JsonPropertyOrder({ "totalRecords", "pagination", "data"})
+@JsonPropertyOrder({ "totalRecords", "pagination", "data" })
 @JsonInclude(JsonInclude.Include.NON_NULL) // No incluirá atributos nulos en el JSON
 @Builder
 public class Response {
@@ -29,9 +29,9 @@ public class Response {
         this.pagination.put("page size", pageSize);
         int totalPages = (int) (Math.ceil((double) totalRecords / pageSize));
         this.pagination.put("total pages", totalPages);
-        if(page > 1 && totalPages > 1)
+        if (page > 1 && totalPages > 1)
             this.pagination.put("previous", url + "/pokemon?page=" + (page - 1));
-        if(page < totalPages)
+        if (page < totalPages)
             this.pagination.put("next", url + "/pokemon?page=" + (page + 1));
     }
 }

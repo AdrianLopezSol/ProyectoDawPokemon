@@ -34,17 +34,16 @@ public class StatsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Response create(@RequestBody StatsCreateWeb statsCreateWeb){
+    public Response create(@RequestBody StatsCreateWeb statsCreateWeb) {
         int id = statsService.create(StatsMapper.mapper.toStatsDTO(statsCreateWeb));
         StatsDetailWeb statsDetailWeb = new StatsDetailWeb(
-            id,
-            statsCreateWeb.getHp(),
-            statsCreateWeb.getAtk(),
-            statsCreateWeb.getDef(),
-            statsCreateWeb.getSp_atk(),
-            statsCreateWeb.getSp_def(),
-            statsCreateWeb.getSpeed()
-        );
+                id,
+                statsCreateWeb.getHp(),
+                statsCreateWeb.getAtk(),
+                statsCreateWeb.getDef(),
+                statsCreateWeb.getSp_atk(),
+                statsCreateWeb.getSp_def(),
+                statsCreateWeb.getSpeed());
         return Response.builder().data(statsDetailWeb).build();
     }
 

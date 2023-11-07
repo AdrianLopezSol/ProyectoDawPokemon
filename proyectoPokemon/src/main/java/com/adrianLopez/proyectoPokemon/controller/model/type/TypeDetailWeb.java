@@ -13,5 +13,5 @@ public class TypeDetailWeb {
 
     private int id;
     private String name;
-    
+
 }

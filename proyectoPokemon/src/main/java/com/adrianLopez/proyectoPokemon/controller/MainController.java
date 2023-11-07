@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     @GetMapping("")
-    public String index(){
+    public String index() {
         return "Bienvenido a la API de pokemon";
     }
 

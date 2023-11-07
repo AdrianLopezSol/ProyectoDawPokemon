@@ -40,23 +40,22 @@ public class TypeController {
     public Response getAll() {
         List<TypeDTO> typeDTOs = typeService.findAll();
         List<TypeDetailWeb> typesWeb = typeDTOs.stream()
-            .map(TypeMapper.mapper::toTypeDetailWeb)
-            .toList();
+                .map(TypeMapper.mapper::toTypeDetailWeb)
+                .toList();
         Response response = Response.builder()
-            .data(typesWeb)
-            .build();
+                .data(typesWeb)
+                .build();
 
         return response;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public Response create(@RequestBody TypeCreateWeb typeCreateWeb){
+    public Response create(@RequestBody TypeCreateWeb typeCreateWeb) {
         int id = typeService.create(TypeMapper.mapper.toTypeDTO(typeCreateWeb));
         TypeDetailWeb typeDetailWeb = new TypeDetailWeb(
                 id,
-                typeCreateWeb.getName()
-        );
+                typeCreateWeb.getName());
         return Response.builder().data(typeDetailWeb).build();
     }
 
