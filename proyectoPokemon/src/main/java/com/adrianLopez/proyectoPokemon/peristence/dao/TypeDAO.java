@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 import org.springframework.stereotype.Component;
 
 import com.adrianLopez.proyectoPokemon.db.DBUtil;
@@ -66,6 +65,40 @@ public class TypeDAO {
         try {
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id, slot));
             return Optional.of(resultSet.next()? TypeMapper.mapper.toTypeEntity(resultSet):null);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void update(Connection connection, TypeEntity typeEntity) {
+        final String SQL = "UPDATE types SET type_name = ? WHERE type_id = ?";
+        List<Object> params = new ArrayList<>();
+        params.add(typeEntity.getName());
+        params.add(typeEntity.getId());
+        DBUtil.update(connection, SQL, params);
+        DBUtil.close(connection);
+    }
+
+    public void delete(Connection connection, int id) {
+        final String SQL = "DELETE FROM types WHERE type_id = ?";
+        DBUtil.delete(connection, SQL, List.of(id));
+        DBUtil.close(connection);
+    }
+
+    public int insert(Connection connection, TypeEntity typeEntity) {
+        final String SQL = "INSERT INTO types (type_name, damage_type_id) VALUES (?, ?)";
+        List<Object> params = new ArrayList<>();
+        params.add(typeEntity.getName());
+        params.add(1);
+        int id = DBUtil.insert(connection, SQL, params);
+        return id;
+    }
+
+    public Optional<TypeEntity> find(Connection connection, int id) {
+        final String sql = "SELECT * from types WHERE type_id = ?";
+        try {
+            ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
+            return Optional.ofNullable(resultSet.next()? TypeMapper.mapper.toTypeEntity(resultSet):null);
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }

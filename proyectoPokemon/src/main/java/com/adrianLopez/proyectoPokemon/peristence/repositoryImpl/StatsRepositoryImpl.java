@@ -21,15 +21,42 @@ public class StatsRepositoryImpl implements StatsRepository {
     StatsDAO statsDAO;
 
     @Override
-    public Optional<StatsDTO> findByPokemonId(int id) {
+    public Optional<StatsDTO> find(int id) {
         try (Connection connection= DBUtil.open(true)){
-            Optional<StatsEntity> statsEntity = statsDAO.findByPokemonId(connection, id);
+            Optional<StatsEntity> statsEntity = statsDAO.find(connection, id);
             if (statsEntity.isEmpty()){
                 return Optional.empty();
             }
             return Optional.of(StatsMapper.mapper.toStatsDTO(statsEntity.get()));
         } catch (SQLException e) {
             throw new RuntimeException();
+        }
+    }
+
+    @Override
+    public int insert(StatsDTO statsDTO) {
+        try (Connection connection = DBUtil.open(true)){
+            return statsDAO.insert(connection, StatsMapper.mapper.toStatsEntity(statsDTO));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void update(StatsDTO statsDTO) {
+        try(Connection connection= DBUtil.open(true)) {
+            statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(statsDTO));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        try(Connection connection= DBUtil.open(true)) {
+            statsDAO.delete(connection, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
     

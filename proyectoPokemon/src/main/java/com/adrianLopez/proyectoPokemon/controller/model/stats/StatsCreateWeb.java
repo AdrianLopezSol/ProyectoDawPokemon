@@ -1,4 +1,4 @@
-package com.adrianLopez.proyectoPokemon.peristence.model;
+package com.adrianLopez.proyectoPokemon.controller.model.stats;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatsEntity {
+public class StatsCreateWeb {
 
     private int pok_id;
 
@@ -19,5 +19,4 @@ public class StatsEntity {
     private int sp_atk;
     private int sp_def;
     private int speed;
-
 }

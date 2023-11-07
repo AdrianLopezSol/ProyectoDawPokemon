@@ -11,4 +11,12 @@ public interface TypeService {
 
     public List<TypeDTO> findAll();
 
+    public TypeDTO find(int id);
+
+    public void delete(int id);
+
+    public void update(TypeDTO typeDTO);
+
+    public int create(TypeDTO typeDTO);
+
 }

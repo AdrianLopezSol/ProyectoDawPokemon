@@ -9,6 +9,12 @@ import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
 @Repository
 public interface StatsRepository {
 
-    public Optional<StatsDTO> findByPokemonId(int id);
+    public Optional<StatsDTO> find(int id);
+
+    public int insert(StatsDTO statsDTO);
+
+    public void update(StatsDTO statsDTO);
+
+    public void delete(int id);
     
 }

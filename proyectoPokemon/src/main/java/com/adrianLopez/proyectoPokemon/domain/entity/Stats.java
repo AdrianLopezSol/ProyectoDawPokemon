@@ -11,6 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Stats {
 
+    private int pok_id;
+
     private int hp;
     private int atk;
     private int def;

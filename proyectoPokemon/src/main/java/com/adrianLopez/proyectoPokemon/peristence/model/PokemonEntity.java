@@ -28,7 +28,7 @@ public class PokemonEntity {
 
     public StatsEntity getStatsEntity(Connection connection, StatsDAO statsDAO) {
         if(this.statsEntity == null) {
-            this.statsEntity = statsDAO.findByPokemonId(connection, id).orElse(null);
+            this.statsEntity = statsDAO.find(connection, id).orElse(null);
         }
         return this.statsEntity;
     }
