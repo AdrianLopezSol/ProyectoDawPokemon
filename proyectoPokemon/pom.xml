@@ -15,7 +15,7 @@
 	<description>Proyecto pokemon de Adrian Lopez</description>
 	<properties>
 		<java.version>17</java.version>
-		<version.lombok>1.18.18</version.lombok>
+		<version.lombok>1.18.24</version.lombok>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<version.mapstruct-lombok>0.2.0</version.mapstruct-lombok>
 	</properties>
