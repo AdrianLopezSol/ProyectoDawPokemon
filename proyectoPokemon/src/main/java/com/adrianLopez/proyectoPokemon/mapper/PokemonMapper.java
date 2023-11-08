@@ -14,6 +14,8 @@ import com.adrianLopez.proyectoPokemon.controller.model.pokemon.PokemonDetailWeb
 import com.adrianLopez.proyectoPokemon.controller.model.pokemon.PokemonListWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonCreateWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonWeb;
+import com.adrianLopez.proyectoPokemon.domain.entity.Pokemon;
+import com.adrianLopez.proyectoPokemon.domain.entity.SlotPokemon;
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
 import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
 import com.adrianLopez.proyectoPokemon.peristence.model.PokemonEntity;
@@ -58,7 +60,21 @@ public interface PokemonMapper {
                 .toList();
     }
 
-    @Named("SlotPokemonEntitiesToSlotPokemonDTOs")
+    @Named("slotPokemonDTOToSlotPokemon")
+    default List<SlotPokemon> mapSlotPokemonDTOToSlotPokemon(List<SlotPokemonDTO> slotPokemonDTOs) {
+        return slotPokemonDTOs.stream()
+                .map(SlotPokemonMapper.mapper::toSlotPokemon)
+                .toList();
+    }
+
+    @Named("slotPokemonToSlotPokemonDTOs")
+    default List<SlotPokemonDTO> mapSlotPokemonToSlotPokemonDTOs(List<SlotPokemon> slotPokemon) {
+        return slotPokemon.stream()
+                .map(SlotPokemonMapper.mapper::toSlotPokemonDTO)
+                .toList();
+    }
+
+    @Named("SlotPokemonCreateWebToSlotPokemonDTOs")
     default List<SlotPokemonDTO> mapSlotPokemonCreateWebToSlotPokemonDTOs(List<SlotPokemonCreateWeb> slotPokemonCreateWebs) {
         if (slotPokemonCreateWebs == null) {
             return null;
@@ -78,5 +94,13 @@ public interface PokemonMapper {
     @Mapping(target = "statsDTO", expression = "java(StatsMapper.mapper.toStatsDTO(pokemonCreateWeb.getStats()))")
     @Mapping(target = "slotPokemonDTOs", expression = "java(mapSlotPokemonCreateWebToSlotPokemonDTOs(pokemonCreateWeb.getSlots()))")
     PokemonDTO toPokemonDTO(PokemonCreateWeb pokemonCreateWeb);
+
+    @Mapping(target = "statsDTO", expression = "java(StatsMapper.mapper.toStatsDTO(pokemon.getStats()))")
+    @Mapping(target = "slotPokemonDTOs", expression = "java(mapSlotPokemonToSlotPokemonDTOs(pokemon.getSlotPokemons()))")
+    PokemonDTO toPokemonDTO(Pokemon pokemon);
+
+    @Mapping(target = "slotPokemons", expression = "java(mapSlotPokemonDTOToSlotPokemon(PokemonDTO.getSlotPokemonDTOs()))")
+    @Mapping(target = "stats", expression = "java(StatsMapper.mapper.toStats(PokemonDTO.getStatsDTO()))")
+    Pokemon toPokemon(PokemonDTO PokemonDTO);
 
 }

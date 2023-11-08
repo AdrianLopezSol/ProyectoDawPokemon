@@ -12,6 +12,8 @@ import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonC
 import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.type.TypeCreatePokemonWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.type.TypeListWeb;
+import com.adrianLopez.proyectoPokemon.domain.entity.SlotPokemon;
+import com.adrianLopez.proyectoPokemon.domain.entity.Type;
 import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
 import com.adrianLopez.proyectoPokemon.dto.TypeDTO;
 import com.adrianLopez.proyectoPokemon.peristence.model.SlotPokemonEntity;
@@ -41,6 +43,14 @@ public interface SlotPokemonMapper {
         return TypeMapper.mapper.toTypeEntity(typeDTO);
     }
 
+    default Type mapTypeDTOtoType(TypeDTO typeDTO) {
+        return TypeMapper.mapper.toType(typeDTO);
+    }
+
+    default TypeDTO mapTypetoTypeDTO(Type type) {
+        return TypeMapper.mapper.toTypeDTO(type);
+    }
+
     @Mapping(target = "type", expression = "java(mapTypeDTOtoTypeListWeb(slotPokemonDTO.getTypeDTO()))")
     SlotPokemonWeb toSlotPokemonWeb(SlotPokemonDTO slotPokemonDTO);
 
@@ -56,5 +66,12 @@ public interface SlotPokemonMapper {
 
     @Mapping(target = "typeDTO", expression = "java(mapTypeCreatePokemonWebtoTypeDTO(slotPokemonCreateWeb.getType()))")
     SlotPokemonDTO toSlotPokemonDTO(SlotPokemonCreateWeb slotPokemonCreateWeb);
+
+    
+    @Mapping(target = "typeDTO", expression = "java(mapTypetoTypeDTO(slotPokemon.getType()))")
+    SlotPokemonDTO toSlotPokemonDTO(SlotPokemon slotPokemon);
+
+    @Mapping(target = "type", expression = "java(mapTypeDTOtoType(slotPokemonDTO.getTypeDTO()))")
+    SlotPokemon toSlotPokemon(SlotPokemonDTO slotPokemonDTO);
 
 }
