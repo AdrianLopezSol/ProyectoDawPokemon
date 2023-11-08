@@ -22,4 +22,6 @@ public interface PokemonRepository {
 
     public void delete(int id);
 
+    public void update(PokemonDTO pokemonDTO);
+
 }

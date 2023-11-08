@@ -48,6 +48,7 @@ public class TypeRepositoryImpl implements TypeRepository {
     public void update(TypeDTO typeDTO) {
         try (Connection connection = DBUtil.open(true)) {
             typeDAO.update(connection, TypeMapper.mapper.toTypeEntity(typeDTO));
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

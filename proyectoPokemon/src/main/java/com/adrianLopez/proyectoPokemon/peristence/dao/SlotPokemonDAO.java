@@ -41,7 +41,6 @@ public class SlotPokemonDAO {
         params.add(pok_id);
         params.add(slotPokemonEntity.getSlot());
         DBUtil.update(connection, SQL, params);
-        DBUtil.close(connection);
     }
 
     public void delete(Connection connection, int id) {

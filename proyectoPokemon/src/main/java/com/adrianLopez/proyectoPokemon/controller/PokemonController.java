@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,6 +84,18 @@ public class PokemonController {
         @DeleteMapping("/{id}")
         public void delete(@PathVariable("id") int id) {
                 pokemonService.delete(id);
+        }
+
+        @ResponseStatus(HttpStatus.NO_CONTENT)
+        @PutMapping("/{id}")
+        public Response update(@PathVariable("id") int id, @RequestBody PokemonCreateWeb pokemonCreateWeb) {
+                pokemonCreateWeb.setId(id);
+                pokemonService.update(PokemonMapper.mapper.toPokemonDTO(pokemonCreateWeb));
+                PokemonDetailWeb pokemonDetailWeb = PokemonMapper.mapper.toPokemonDetailWeb(pokemonService.find(id));
+                pokemonDetailWeb.getStats().setPok_id(id);
+                return Response.builder()
+                                .data(pokemonDetailWeb)
+                                .build();
         }
 
 }

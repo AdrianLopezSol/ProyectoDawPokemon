@@ -40,7 +40,6 @@ public class StatsDAO {
         params.add(statsEntity.getSpeed());
         params.add(id);
         DBUtil.update(connection, SQL, params);
-        DBUtil.close(connection);
     }
 
     public void delete(Connection connection, int id) {

@@ -54,13 +54,11 @@ public class TypeDAO {
         params.add(typeEntity.getName());
         params.add(typeEntity.getId());
         DBUtil.update(connection, SQL, params);
-        DBUtil.close(connection);
     }
 
     public void delete(Connection connection, int id) {
         final String SQL = "DELETE FROM types WHERE type_id = ?";
         DBUtil.delete(connection, SQL, List.of(id));
-        DBUtil.close(connection);
     }
 
     public int insert(Connection connection, TypeEntity typeEntity) {

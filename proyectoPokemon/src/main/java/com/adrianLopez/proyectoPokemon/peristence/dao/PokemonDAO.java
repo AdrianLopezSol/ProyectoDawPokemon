@@ -87,4 +87,18 @@ public class PokemonDAO {
         final String SQL = "DELETE FROM pokemon WHERE pok_id = ?";
         DBUtil.delete(connection, SQL, List.of(id));
     }
+
+    public void update(Connection connection, PokemonEntity pokemonEntity) {
+        final String SQL = """
+            UPDATE pokemon SET pok_name = ?, pok_height = ?, pok_weight = ?, pok_base_experience = ? WHERE pok_id = ?
+            """;
+        List<Object> params = new ArrayList<>();
+        params.add(pokemonEntity.getName());
+        params.add(pokemonEntity.getHeight());
+        params.add(pokemonEntity.getWeight());
+        params.add(pokemonEntity.getExp());
+        params.add(pokemonEntity.getId());
+        DBUtil.update(connection, SQL, params);
+    }
+
 }

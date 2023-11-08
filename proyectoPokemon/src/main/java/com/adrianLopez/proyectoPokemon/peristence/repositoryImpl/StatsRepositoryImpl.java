@@ -46,6 +46,7 @@ public class StatsRepositoryImpl implements StatsRepository {
     public void update(StatsDTO statsDTO, int id) {
         try (Connection connection = DBUtil.open(true)) {
             statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(statsDTO), id);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

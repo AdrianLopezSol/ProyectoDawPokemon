@@ -54,4 +54,12 @@ public class PokemonServiceImpl implements PokemonService {
         pokemonRepository.delete(id);
     }
 
+    @Override
+    public void update(PokemonDTO pokemonDTO) {
+        if (!pokemonRepository.exists(pokemonDTO.getId())) {
+                throw new ResourceNotFoundException("Pokemon no encontrado con id: " + pokemonDTO.getId());
+        }
+        pokemonRepository.update(pokemonDTO);
+    }
+
 }
