@@ -7,9 +7,9 @@ import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
 @Service
 public interface StatsService {
 
-    public int create(StatsDTO statsDTO);
+    public int create(StatsDTO statsDTO, int id);
 
-    public void update(StatsDTO statsDTO);
+    public void update(StatsDTO statsDTO, int id);
 
     public void delete(int id);
 

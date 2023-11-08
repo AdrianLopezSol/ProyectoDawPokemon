@@ -3,6 +3,7 @@ package com.adrianLopez.proyectoPokemon.domain.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.domain.repository.StatsRepository;
 import com.adrianLopez.proyectoPokemon.domain.service.StatsService;
 import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
@@ -14,16 +15,22 @@ public class StatsServiceImpl implements StatsService {
     @Autowired
     StatsRepository statsRepository;
 
+    @Autowired
+    PokemonRepository pokemonRepository;
+
     @Override
-    public int create(StatsDTO statsDTO) {
-        return statsRepository.insert(statsDTO);
+    public int create(StatsDTO statsDTO, int id) {
+        if (!pokemonRepository.exists(id)){
+            throw new ResourceNotFoundException("Pokemon no encontrado con id: " + id);
+        }
+        return statsRepository.insert(statsDTO, id);
     }
 
     @Override
-    public void update(StatsDTO statsDTO) {
-        statsRepository.find(statsDTO.getPok_id()).orElseThrow(
-                () -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + statsDTO.getPok_id()));
-        statsRepository.update(statsDTO);
+    public void update(StatsDTO statsDTO, int id) {
+        statsRepository.find(id).orElseThrow(
+                () -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + id));
+        statsRepository.update(statsDTO, id);
     }
 
     @Override

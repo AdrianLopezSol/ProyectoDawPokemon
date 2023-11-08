@@ -36,19 +36,6 @@ public class TypeRepositoryImpl implements TypeRepository {
     }
 
     @Override
-    public List<TypeDTO> findByPokemonId(int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            List<TypeEntity> typeEntities = typeDAO.findByPokemonId(connection, id);
-            List<TypeDTO> typeDTOs = typeEntities.stream()
-                    .map(TypeMapper.mapper::toTypeDTO)
-                    .toList();
-            return typeDTOs;
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    @Override
     public int insert(TypeDTO typeDTO) {
         try (Connection connection = DBUtil.open(true)) {
             return typeDAO.insert(connection, TypeMapper.mapper.toTypeEntity(typeDTO));

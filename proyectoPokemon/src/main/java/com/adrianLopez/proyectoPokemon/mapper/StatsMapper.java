@@ -25,7 +25,6 @@ public interface StatsMapper {
     @Mapping(target = "sp_atk", expression = "java(resultSet.getInt(\"b_sp_atk\"))")
     @Mapping(target = "sp_def", expression = "java(resultSet.getInt(\"b_sp_def\"))")
     @Mapping(target = "speed", expression = "java(resultSet.getInt(\"b_speed\"))")
-    @Mapping(target = "pok_id", expression = "java(resultSet.getInt(\"pok_id\"))")
     StatsEntity toStatsEntity(ResultSet resultSet) throws SQLException;
 
     StatsDTO toStatsDTO(StatsEntity StatsEntity);

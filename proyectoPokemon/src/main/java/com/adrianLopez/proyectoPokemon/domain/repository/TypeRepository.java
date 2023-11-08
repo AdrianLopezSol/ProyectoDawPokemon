@@ -12,8 +12,6 @@ public interface TypeRepository {
 
     public List<TypeDTO> findAll();
 
-    public List<TypeDTO> findByPokemonId(int id);
-
     public Optional<TypeDTO> find(int id);
 
     public void delete(int id);

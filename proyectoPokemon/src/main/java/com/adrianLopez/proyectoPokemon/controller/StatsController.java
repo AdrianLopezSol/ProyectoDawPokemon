@@ -33,9 +33,9 @@ public class StatsController {
     private StatsService statsService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    public Response create(@RequestBody StatsCreateWeb statsCreateWeb) {
-        int id = statsService.create(StatsMapper.mapper.toStatsDTO(statsCreateWeb));
+    @PostMapping("/{id}")
+    public Response create(@PathVariable("id") int id, @RequestBody StatsCreateWeb statsCreateWeb) {
+        statsService.create(StatsMapper.mapper.toStatsDTO(statsCreateWeb), id);
         StatsDetailWeb statsDetailWeb = new StatsDetailWeb(
                 id,
                 statsCreateWeb.getHp(),
@@ -50,8 +50,7 @@ public class StatsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@PathVariable("id") int id, @RequestBody StatsUpdateWeb statsUpdateWeb) {
-        statsUpdateWeb.setPok_id(id);
-        statsService.update(StatsMapper.mapper.toStatsDTO(statsUpdateWeb));
+        statsService.update(StatsMapper.mapper.toStatsDTO(statsUpdateWeb), id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -63,7 +62,9 @@ public class StatsController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
-        return Response.builder().data(StatsMapper.mapper.toStatsDetailWeb(statsService.find(id))).build();
+        StatsDetailWeb statsDetailWeb = StatsMapper.mapper.toStatsDetailWeb(statsService.find(id));
+        statsDetailWeb.setPok_id(id);
+        return Response.builder().data(statsDetailWeb).build();
     }
 
 }

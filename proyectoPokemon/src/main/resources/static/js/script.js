@@ -1,13 +1,12 @@
-// script.js
 const detailsContainer = document.getElementById("details-container");
 const pokemonImage = document.getElementById("pokemonImage");
 
-let page = 1; // Initialize the page number
+let page = 1;
 let isLoading = false;
 
 function loadPokemonData() {
     if (isLoading) {
-      return; // Data is already being loaded, prevent duplicate requests
+      return;
     }
   
     isLoading = true;
@@ -65,7 +64,6 @@ function loadPokemonData() {
     return image;
   }
   
-  // Debounce function to prevent multiple rapid scroll events
   function debounce(func, delay) {
     let timer;
     return function () {
@@ -74,11 +72,11 @@ function loadPokemonData() {
     };
   }
   
-  const debounceLoadData = debounce(loadPokemonData, 100); // Adjust the delay as needed
+  const debounceLoadData = debounce(loadPokemonData, 100);
   
   window.addEventListener('scroll', function () {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight*0.50) {
-      debounceLoadData(); // Debounced loading of more data
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight*0.80) {
+      debounceLoadData();
     }
   });
 
@@ -94,7 +92,7 @@ function loadPokemonData() {
   
         const typeImages = data.slots.map((slot) => {
           const typeImage = createImage(`img/types/${slot.type.id}.webp`);
-          return typeImage.outerHTML; // Get the HTML of the image element
+          return typeImage.outerHTML;
         });
   
         modal.innerHTML = `

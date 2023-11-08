@@ -47,6 +47,21 @@ public class PokemonDAO {
         }
     }
 
+    public boolean exists(Connection connection, int id) {
+        final String sql = "SELECT * FROM pokemon WHERE pok_id = ?";
+        try {
+            ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
+            if (resultSet.next()){
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+
     public int getTotalNumberOfRecords(Connection connection) {
         final String SQL = "SELECT COUNT(*) FROM pokemon";
         try {

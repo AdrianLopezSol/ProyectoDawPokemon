@@ -34,18 +34,18 @@ public class StatsRepositoryImpl implements StatsRepository {
     }
 
     @Override
-    public int insert(StatsDTO statsDTO) {
+    public int insert(StatsDTO statsDTO, int id) {
         try (Connection connection = DBUtil.open(true)) {
-            return statsDAO.insert(connection, StatsMapper.mapper.toStatsEntity(statsDTO));
+            return statsDAO.insert(connection, StatsMapper.mapper.toStatsEntity(statsDTO), id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void update(StatsDTO statsDTO) {
+    public void update(StatsDTO statsDTO, int id) {
         try (Connection connection = DBUtil.open(true)) {
-            statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(statsDTO));
+            statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(statsDTO), id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

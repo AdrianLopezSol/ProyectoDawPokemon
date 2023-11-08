@@ -26,7 +26,7 @@ public class StatsDAO {
         }
     }
 
-    public void update(Connection connection, StatsEntity statsEntity) {
+    public void update(Connection connection, StatsEntity statsEntity, int id) {
         final String SQL = """
                     UPDATE base_stats SET b_hp = ?, b_atk = ?, b_def = ?,
                         b_sp_atk = ?, b_sp_def = ?, b_speed = ? WHERE pok_id = ?
@@ -38,7 +38,7 @@ public class StatsDAO {
         params.add(statsEntity.getSp_atk());
         params.add(statsEntity.getSp_def());
         params.add(statsEntity.getSpeed());
-        params.add(statsEntity.getPok_id());
+        params.add(id);
         DBUtil.update(connection, SQL, params);
         DBUtil.close(connection);
     }
@@ -49,17 +49,17 @@ public class StatsDAO {
         DBUtil.close(connection);
     }
 
-    public int insert(Connection connection, StatsEntity statsEntity) {
+    public int insert(Connection connection, StatsEntity statsEntity, int id) {
         final String SQL = "INSERT INTO base_stats (pok_id, b_hp, b_atk, b_def, b_sp_atk, b_sp_def, b_speed) VALUES (?, ?, ?, ?, ?, ?, ?)";
         List<Object> params = new ArrayList<>();
-        params.add(statsEntity.getPok_id());
+        params.add(id);
         params.add(statsEntity.getHp());
         params.add(statsEntity.getAtk());
         params.add(statsEntity.getDef());
         params.add(statsEntity.getSp_atk());
         params.add(statsEntity.getSp_def());
         params.add(statsEntity.getSpeed());
-        int id = DBUtil.insert(connection, SQL, params);
+        DBUtil.insertNoId(connection, SQL, params);
         return id;
     }
 

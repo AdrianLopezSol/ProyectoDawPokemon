@@ -32,28 +32,6 @@ public class TypeDAO {
         }
     }
 
-    public List<TypeEntity> findByPokemonId(Connection connection, int id) {
-        List<TypeEntity> typeEntities = new ArrayList<>();
-        final String sql = """
-                SELECT t.type_name, t.type_id
-                    FROM types t
-                    INNER JOIN pokemon_types pt ON t.type_id = pt.type_id
-                    INNER JOIN pokemon p ON p.pok_id = pt.pok_id
-                    WHERE p.pok_id = ?
-                    ORDER BY pt.slot;
-                """;
-        try {
-            ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
-            while (resultSet.next()) {
-                TypeEntity typeEntity = TypeMapper.mapper.toTypeEntity(resultSet);
-                typeEntities.add(typeEntity);
-            }
-            return typeEntities;
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
     public Optional<TypeEntity> findByPokemonIdAndSlot(Connection connection, int id, int slot) {
         final String sql = """
                 SELECT t.type_name, t.type_id

@@ -73,6 +73,15 @@ public class DBUtil {
         }
     }
 
+        public static void insertNoId(Connection connection, String sql, List<Object> values) {
+        try {
+            PreparedStatement preparedStatement = setParameters(connection, sql, values);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLStatementException("SQL: " + sql);
+        }
+    }
+
     public static int update(Connection connection, String sql, List<Object> values) {
         try {
             PreparedStatement preparedStatement = setParameters(connection, sql, values);

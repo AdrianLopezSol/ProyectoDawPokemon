@@ -16,4 +16,6 @@ public interface PokemonRepository {
 
     public int getTotalNumberOfRecords();
 
+    public boolean exists(int id);
+
 }

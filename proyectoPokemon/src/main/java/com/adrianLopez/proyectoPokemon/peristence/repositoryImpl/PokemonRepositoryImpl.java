@@ -78,4 +78,13 @@ public class PokemonRepositoryImpl implements PokemonRepository {
         }
     }
 
+    @Override
+    public boolean exists(int id) {
+        try (Connection connection = DBUtil.open(true)) {
+            return pokemonDAO.exists(connection, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
