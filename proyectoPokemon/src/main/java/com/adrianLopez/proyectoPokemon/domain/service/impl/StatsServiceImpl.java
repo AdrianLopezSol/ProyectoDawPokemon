@@ -3,11 +3,13 @@ package com.adrianLopez.proyectoPokemon.domain.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.adrianLopez.proyectoPokemon.domain.entity.Stats;
 import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.domain.repository.StatsRepository;
 import com.adrianLopez.proyectoPokemon.domain.service.StatsService;
 import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
 import com.adrianLopez.proyectoPokemon.exception.ResourceNotFoundException;
+import com.adrianLopez.proyectoPokemon.mapper.StatsMapper;
 
 @Service
 public class StatsServiceImpl implements StatsService {
@@ -20,17 +22,22 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public int create(StatsDTO statsDTO, int id) {
+        Stats stats = StatsMapper.mapper.toStats(statsDTO);
         if (!pokemonRepository.exists(id)){
-            throw new ResourceNotFoundException("Pokemon no encontrado con id: " + id);
+            throw new ResourceNotFoundException("El pokemon con id: " + id + " no existe");
         }
-        return statsRepository.insert(statsDTO, id);
+        if (statsRepository.find(id).isPresent()){
+            throw new ResourceNotFoundException("Las estadisticas del pokemon con id: " + id + " ya existen");
+        }
+        return statsRepository.insert(StatsMapper.mapper.toStatsDTO(stats), id);
     }
 
     @Override
     public void update(StatsDTO statsDTO, int id) {
+        Stats stats = StatsMapper.mapper.toStats(statsDTO);
         statsRepository.find(id).orElseThrow(
                 () -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + id));
-        statsRepository.update(statsDTO, id);
+        statsRepository.update(StatsMapper.mapper.toStatsDTO(stats), id);
     }
 
     @Override
@@ -42,8 +49,9 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public StatsDTO find(int id) {
-        return statsRepository.find(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + id));
+        Stats stats = StatsMapper.mapper.toStats(statsRepository.find(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Estadisticas no encontradas con id: " + id)));
+        return StatsMapper.mapper.toStatsDTO(stats);
     }
 
 }

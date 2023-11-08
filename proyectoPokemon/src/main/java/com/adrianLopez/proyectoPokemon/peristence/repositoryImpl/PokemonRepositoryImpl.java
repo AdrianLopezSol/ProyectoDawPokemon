@@ -58,15 +58,18 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     @Override
     public Optional<PokemonDTO> find(int id) {
         try (Connection connection = DBUtil.open(true)) {
-            PokemonEntity pokemonEntity = pokemonDAO.find(connection, id).get();
-            if (pokemonEntity != null) {
+            Optional<PokemonEntity> optionalPokemonEntity = pokemonDAO.find(connection, id);
+
+            if (optionalPokemonEntity.isPresent()) {
+                PokemonEntity pokemonEntity = optionalPokemonEntity.get();
                 pokemonEntity.getStatsEntity(connection, statsDAO);
                 pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO)
-                        .forEach(SlotPokemonEntity -> SlotPokemonEntity.getTypeEntity(connection, typeDAO,
+                        .forEach(slotPokemonEntity -> slotPokemonEntity.getTypeEntity(connection, typeDAO,
                                 pokemonEntity.getId()));
+                return Optional.ofNullable(PokemonMapper.mapper.toPokemonDTO(pokemonEntity));
+            } else {
+                return Optional.empty();
             }
-            Optional<PokemonDTO> response = Optional.ofNullable(PokemonMapper.mapper.toPokemonDTO(pokemonEntity));
-            return response;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -88,7 +91,8 @@ public class PokemonRepositoryImpl implements PokemonRepository {
             try {
                 int pok_id = pokemonDAO.insert(connection, PokemonMapper.mapper.toPokemonEntity(pokemonDTO));
                 for (SlotPokemonDTO slotPokemonDTO : pokemonDTO.getSlotPokemonDTOs()) {
-                    slotPokemonDAO.insert(connection, SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO), pok_id);
+                    slotPokemonDAO.insert(connection, SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO),
+                            pok_id);
                 }
                 statsDAO.insert(connection, StatsMapper.mapper.toStatsEntity(pokemonDTO.getStatsDTO()), pok_id);
                 connection.commit();
@@ -110,9 +114,11 @@ public class PokemonRepositoryImpl implements PokemonRepository {
             try {
                 pokemonDAO.update(connection, PokemonMapper.mapper.toPokemonEntity(pokemonDTO));
                 for (SlotPokemonDTO slotPokemonDTO : pokemonDTO.getSlotPokemonDTOs()) {
-                    slotPokemonDAO.update(connection, SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO), pokemonDTO.getId());
+                    slotPokemonDAO.update(connection, SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO),
+                            pokemonDTO.getId());
                 }
-                statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(pokemonDTO.getStatsDTO()), pokemonDTO.getId());
+                statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(pokemonDTO.getStatsDTO()),
+                        pokemonDTO.getId());
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();

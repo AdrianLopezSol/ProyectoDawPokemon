@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.adrianLopez.proyectoPokemon.domain.entity.Pokemon;
 import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.domain.service.PokemonService;
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
 import com.adrianLopez.proyectoPokemon.exception.ResourceNotFoundException;
+import com.adrianLopez.proyectoPokemon.mapper.PokemonMapper;
 
 @Service
 public class PokemonServiceImpl implements PokemonService {
@@ -18,19 +20,29 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public List<PokemonDTO> getAll(Integer page, Integer pageSize) {
-        return pokemonRepository.getAll(page, pageSize);
+        List<Pokemon> pokemons = pokemonRepository.getAll(page, pageSize).stream()
+        .map(PokemonMapper.mapper::toPokemon).
+        toList();
+        return pokemons.stream()
+        .map(PokemonMapper.mapper::toPokemonDTO).
+        toList();
     }
 
     @Override
     public List<PokemonDTO> getAll() {
-        return pokemonRepository.getAll(null, null);
+        List<Pokemon> pokemons = pokemonRepository.getAll(null, null).stream()
+        .map(PokemonMapper.mapper::toPokemon).
+        toList();
+        return pokemons.stream()
+        .map(PokemonMapper.mapper::toPokemonDTO).
+        toList();
     }
 
     @Override
     public PokemonDTO find(int id) {
-        PokemonDTO pokemonDTO = pokemonRepository.find(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Pokemon not found with id: " + id));
-        return pokemonDTO;
+        Pokemon pokemon = PokemonMapper.mapper.toPokemon(pokemonRepository.find(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pokemon no encontrado con id: " + id)));
+        return PokemonMapper.mapper.toPokemonDTO(pokemon);
     }
 
     @Override
@@ -40,10 +52,11 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public int create(PokemonDTO pokemonDTO) {
-        if (pokemonRepository.exists(pokemonDTO.getId())){
-            throw new ResourceNotFoundException("El pokemon con id " + pokemonDTO.getId() + "ya existe");
+        Pokemon pokemon = PokemonMapper.mapper.toPokemon(pokemonDTO);
+        if (pokemonRepository.exists(pokemon.getId())){
+            throw new ResourceNotFoundException("El pokemon con id " + pokemonDTO.getId() + " ya existe");
         }
-        return pokemonRepository.insert(pokemonDTO);
+        return pokemonRepository.insert(PokemonMapper.mapper.toPokemonDTO(pokemon));
     }
 
     @Override
@@ -56,10 +69,11 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public void update(PokemonDTO pokemonDTO) {
-        if (!pokemonRepository.exists(pokemonDTO.getId())) {
+        Pokemon pokemon = PokemonMapper.mapper.toPokemon(pokemonDTO);
+        if (!pokemonRepository.exists(pokemon.getId())) {
                 throw new ResourceNotFoundException("Pokemon no encontrado con id: " + pokemonDTO.getId());
         }
-        pokemonRepository.update(pokemonDTO);
+        pokemonRepository.update(PokemonMapper.mapper.toPokemonDTO(pokemon));
     }
 
 }
