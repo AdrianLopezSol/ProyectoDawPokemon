@@ -55,6 +55,7 @@ public class StatsRepositoryImpl implements StatsRepository {
     public void delete(int id) {
         try (Connection connection = DBUtil.open(true)) {
             statsDAO.delete(connection, id);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

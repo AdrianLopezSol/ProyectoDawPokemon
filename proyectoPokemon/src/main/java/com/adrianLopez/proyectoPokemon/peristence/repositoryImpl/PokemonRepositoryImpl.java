@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 import com.adrianLopez.proyectoPokemon.db.DBUtil;
 import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
+import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
 import com.adrianLopez.proyectoPokemon.mapper.PokemonMapper;
+import com.adrianLopez.proyectoPokemon.mapper.SlotPokemonMapper;
+import com.adrianLopez.proyectoPokemon.mapper.StatsMapper;
 import com.adrianLopez.proyectoPokemon.peristence.dao.PokemonDAO;
 import com.adrianLopez.proyectoPokemon.peristence.dao.SlotPokemonDAO;
 import com.adrianLopez.proyectoPokemon.peristence.dao.StatsDAO;
@@ -79,9 +82,35 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     }
 
     @Override
+    public int insert(PokemonDTO pokemonDTO) {
+        try (Connection connection = DBUtil.open(true)) {
+            int pok_id = pokemonDAO.insert(connection, PokemonMapper.mapper.toPokemonEntity(pokemonDTO));
+            for (SlotPokemonDTO slotPokemonDTO : pokemonDTO.getSlotPokemonDTOs()) {
+                slotPokemonDAO.insert(connection, SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO), pok_id);
+            }
+            statsDAO.insert(connection,StatsMapper.mapper.toStatsEntity(pokemonDTO.getStatsDTO()), pok_id);
+            return pok_id;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public boolean exists(int id) {
         try (Connection connection = DBUtil.open(true)) {
             return pokemonDAO.exists(connection, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        try (Connection connection = DBUtil.open(true)) {
+            statsDAO.delete(connection, id);
+            slotPokemonDAO.delete(connection, id);
+            pokemonDAO.delete(connection, id);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

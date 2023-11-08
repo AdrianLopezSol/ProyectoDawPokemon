@@ -18,4 +18,8 @@ public interface PokemonRepository {
 
     public boolean exists(int id);
 
+    public int insert(PokemonDTO pokemonDTO);
+
+    public void delete(int id);
+
 }

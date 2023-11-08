@@ -2,8 +2,8 @@ package com.adrianLopez.proyectoPokemon.controller.model.pokemon;
 
 import java.util.List;
 
-import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonWeb;
-import com.adrianLopez.proyectoPokemon.controller.model.stats.StatsDetailWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonCreateWeb;
+import com.adrianLopez.proyectoPokemon.controller.model.stats.StatsCreateWeb;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PokemonDetailWeb {
+public class PokemonCreateWeb {
 
     private int id;
     private String name;
@@ -22,7 +22,7 @@ public class PokemonDetailWeb {
     private int weight;
     private int exp;
 
-    private List<SlotPokemonWeb> slots;
-    private StatsDetailWeb stats;
+    private List<SlotPokemonCreateWeb> slots;
+    private StatsCreateWeb stats;
     
 }

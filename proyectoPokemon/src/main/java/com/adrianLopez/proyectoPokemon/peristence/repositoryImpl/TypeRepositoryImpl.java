@@ -57,6 +57,7 @@ public class TypeRepositoryImpl implements TypeRepository {
     public void delete(int id) {
         try (Connection connection = DBUtil.open(true)) {
             typeDAO.delete(connection, id);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

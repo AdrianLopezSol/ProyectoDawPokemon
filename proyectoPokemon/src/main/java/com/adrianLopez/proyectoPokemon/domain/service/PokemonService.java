@@ -15,6 +15,10 @@ public interface PokemonService {
 
      public PokemonDTO find(int id);
 
+     public int create(PokemonDTO pokemonDTO);
+
+     public void delete(int id);
+
      int getTotalNumberOfRecords();
     
 }

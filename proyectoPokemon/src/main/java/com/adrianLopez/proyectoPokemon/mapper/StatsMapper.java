@@ -39,6 +39,9 @@ public interface StatsMapper {
 
     StatsEntity toStatsEntity(StatsDTO StatsDTO);
 
+    @Mapping(target = "pok_id", ignore = true)
     StatsDetailWeb toStatsDetailWeb(StatsDTO StatsDTO);
+
+    StatsCreateWeb toStatsCreateWeb(StatsDTO StatsDTO);
 
 }

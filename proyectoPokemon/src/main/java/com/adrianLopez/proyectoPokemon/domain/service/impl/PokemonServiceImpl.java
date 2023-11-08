@@ -37,4 +37,21 @@ public class PokemonServiceImpl implements PokemonService {
     public int getTotalNumberOfRecords() {
         return pokemonRepository.getTotalNumberOfRecords();
     }
+
+    @Override
+    public int create(PokemonDTO pokemonDTO) {
+        if (pokemonRepository.exists(pokemonDTO.getId())){
+            throw new ResourceNotFoundException("El pokemon con id " + pokemonDTO.getId() + "ya existe");
+        }
+        return pokemonRepository.insert(pokemonDTO);
+    }
+
+    @Override
+    public void delete(int id) {
+        if (!pokemonRepository.exists(id)) {
+                throw new ResourceNotFoundException("Pokemon no encontrado con id: " + id);
+        }
+        pokemonRepository.delete(id);
+    }
+
 }

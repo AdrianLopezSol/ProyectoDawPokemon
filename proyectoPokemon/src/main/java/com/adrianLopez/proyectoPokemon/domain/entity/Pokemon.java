@@ -15,8 +15,8 @@ public class Pokemon {
 
     private int id;
     private String name;
-    private double height;
-    private double weight;
+    private int height;
+    private int weight;
     private int exp;
 
     private List<SlotPokemon> slotPokemons;

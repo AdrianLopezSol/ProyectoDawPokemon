@@ -46,7 +46,6 @@ public class StatsDAO {
     public void delete(Connection connection, int id) {
         final String SQL = "DELETE FROM base_stats WHERE pok_id = ?";
         DBUtil.delete(connection, SQL, List.of(id));
-        DBUtil.close(connection);
     }
 
     public int insert(Connection connection, StatsEntity statsEntity, int id) {

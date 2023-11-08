@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.adrianLopez.proyectoPokemon.controller.model.type.TypeCreatePokemonWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.type.TypeCreateWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.type.TypeDetailWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.type.TypeListWeb;
@@ -24,9 +25,11 @@ public interface TypeMapper {
     @Mapping(target = "name", expression = "java(resultSet.getString(\"type_name\"))")
     TypeEntity toTypeEntity(ResultSet resultSet) throws SQLException;
 
-    TypeDTO toTypeDTO(TypeEntity TypeEntity);
+    TypeDTO toTypeDTO(TypeCreateWeb typeCreateWeb);
 
     TypeDetailWeb toTypeDetailWeb(TypeDTO TypeDTO);
+
+    TypeCreatePokemonWeb toTypeCreatePokemonWeb(TypeDTO TypeDTO);
 
     Type toType(TypeDTO TypeDTO);
 
@@ -34,7 +37,10 @@ public interface TypeMapper {
 
     TypeEntity toTypeEntity(TypeDTO TypeDTO);
 
-    TypeDTO toTypeDTO(TypeCreateWeb typeCreateWeb);
+    @Mapping(target = "name", ignore = true)
+    TypeDTO toTypeDTO(TypeCreatePokemonWeb typeCreatePokemonWeb);
+
+    TypeDTO toTypeDTO(TypeEntity typeEntity);
 
     TypeDTO toTypeDTO(TypeUpdateWeb typeUpdateWeb);
 

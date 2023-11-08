@@ -72,4 +72,19 @@ public class PokemonDAO {
             throw new RuntimeException("SQL: " + SQL);
         }
     }
+
+    public int insert(Connection connection, PokemonEntity pokemonEntity) {
+        final String SQL = "INSERT INTO pokemon (pok_name, pok_height, pok_weight, pok_base_experience) VALUES (?, ?, ?, ?)";
+        List<Object> params = new ArrayList<>();
+        params.add(pokemonEntity.getName());
+        params.add(pokemonEntity.getHeight());
+        params.add(pokemonEntity.getWeight());
+        params.add(pokemonEntity.getExp());
+        return DBUtil.insert(connection, SQL, params);
+    }
+
+    public void delete(Connection connection, int id) {
+        final String SQL = "DELETE FROM pokemon WHERE pok_id = ?";
+        DBUtil.delete(connection, SQL, List.of(id));
+    }
 }
