@@ -34,6 +34,21 @@ public class SlotPokemonDAO {
         }
     }
 
+    public boolean exists(Connection connection, int id) {
+        final String sql = "SELECT * FROM pokemon_types WHERE pok_id = ?";
+        try {
+            ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
+            if (resultSet.next()){
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+    
     public void update(Connection connection, SlotPokemonEntity slotPokemonEntity, int pok_id) {
         final String SQL = "UPDATE pokemon_types SET type_id = ? WHERE pok_id = ? AND slot = ?";
         List<Object> params = new ArrayList<>();
