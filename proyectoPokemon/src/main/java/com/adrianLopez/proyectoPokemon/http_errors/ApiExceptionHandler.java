@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.adrianLopez.proyectoPokemon.exception.DBConnectionException;
+import com.adrianLopez.proyectoPokemon.exception.NotValidCombinationException;
 import com.adrianLopez.proyectoPokemon.exception.ResourceNotFoundException;
 import com.adrianLopez.proyectoPokemon.exception.SQLStatementException;
 
@@ -21,6 +22,15 @@ public class ApiExceptionHandler {
     @ResponseBody
     public ErrorMessage notFoundRequest(Exception exception) {
         return new ErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND.value());
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler({
+            NotValidCombinationException.class
+    })
+    @ResponseBody
+    public ErrorMessage conflictOnOperation(Exception exception) {
+        return new ErrorMessage(exception.getMessage(), HttpStatus.CONFLICT.value());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -21,7 +21,6 @@ import com.adrianLopez.proyectoPokemon.controller.model.pokemon.PokemonDetailWeb
 import com.adrianLopez.proyectoPokemon.controller.model.pokemon.PokemonListWeb;
 import com.adrianLopez.proyectoPokemon.controller.model.slotPokemon.SlotPokemonCreateWeb;
 import com.adrianLopez.proyectoPokemon.domain.service.PokemonService;
-import com.adrianLopez.proyectoPokemon.domain.service.SlotPokemonService;
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
 import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
 import com.adrianLopez.proyectoPokemon.http_response.Response;
@@ -39,9 +38,6 @@ public class PokemonController {
 
         @Autowired
         private PokemonService pokemonService;
-
-        @Autowired
-        private SlotPokemonService slotPokemonService;
 
         @Value("${page.size}")
         private int PAGE_SIZE;
@@ -106,10 +102,10 @@ public class PokemonController {
         }
 
         @ResponseStatus(HttpStatus.CREATED)
-        @PostMapping( "types/{id}")
+        @PostMapping("/{id}/types")
         public Response addType(@RequestBody SlotPokemonCreateWeb slotPokemonCreateWeb, @PathVariable("id") int id) {
                 SlotPokemonDTO slotPokemonDTO = SlotPokemonMapper.mapper.toSlotPokemonDTO(slotPokemonCreateWeb);
-                slotPokemonService.create(slotPokemonDTO, id);
+                pokemonService.createPokemonType(slotPokemonDTO, id);
                 PokemonDetailWeb pokemonDetailWeb = PokemonMapper.mapper.toPokemonDetailWeb(pokemonService.find(id));
                 pokemonDetailWeb.getStats().setPok_id(id);
                 return Response.builder()
@@ -118,18 +114,16 @@ public class PokemonController {
         }
 
         @ResponseStatus(HttpStatus.NO_CONTENT)
-        @PutMapping( "types/{id}")
-        public void updateTypes(@RequestBody List<SlotPokemonCreateWeb> slotPokemonCreateWebs, @PathVariable("id") int id) {
-                List<SlotPokemonDTO> slotPokemonDTos = slotPokemonCreateWebs.stream()
-                    .map(SlotPokemonMapper.mapper::toSlotPokemonDTO)
-                    .toList();
-                slotPokemonService.update(slotPokemonDTos, id);
+        @PutMapping("/{id}/types")
+        public void updateType(@RequestBody SlotPokemonCreateWeb slotPokemonCreateWebs, @PathVariable("id") int id) {
+                SlotPokemonDTO slotPokemonDTO = SlotPokemonMapper.mapper.toSlotPokemonDTO(slotPokemonCreateWebs);
+                pokemonService.updatePokemonType(slotPokemonDTO, id);
         }
 
         @ResponseStatus(HttpStatus.NO_CONTENT)
-        @DeleteMapping( "types/{id}")
+        @DeleteMapping("/{id}/types")
         public void deleteTypes(@PathVariable("id") int id) {
-                slotPokemonService.delete(id);
+                pokemonService.deletePokemonTypes(id);
         }
 
 }

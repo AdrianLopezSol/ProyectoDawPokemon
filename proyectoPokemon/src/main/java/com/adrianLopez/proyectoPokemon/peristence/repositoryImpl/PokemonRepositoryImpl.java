@@ -2,6 +2,7 @@ package com.adrianLopez.proyectoPokemon.peristence.repositoryImpl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import com.adrianLopez.proyectoPokemon.peristence.dao.SlotPokemonDAO;
 import com.adrianLopez.proyectoPokemon.peristence.dao.StatsDAO;
 import com.adrianLopez.proyectoPokemon.peristence.dao.TypeDAO;
 import com.adrianLopez.proyectoPokemon.peristence.model.PokemonEntity;
+import com.adrianLopez.proyectoPokemon.peristence.model.SlotPokemonEntity;
 
 @Repository
 public class PokemonRepositoryImpl implements PokemonRepository {
@@ -63,9 +65,15 @@ public class PokemonRepositoryImpl implements PokemonRepository {
             if (optionalPokemonEntity.isPresent()) {
                 PokemonEntity pokemonEntity = optionalPokemonEntity.get();
                 pokemonEntity.getStatsEntity(connection, statsDAO);
-                pokemonEntity.getSlotPokemonEntities(connection, slotPokemonDAO)
-                        .forEach(slotPokemonEntity -> slotPokemonEntity.getTypeEntity(connection, typeDAO,
-                                pokemonEntity.getId()));
+                List<SlotPokemonEntity> slotPokemonEntities = pokemonEntity.getSlotPokemonEntities(connection,
+                        slotPokemonDAO);
+                if (slotPokemonEntities != null) {
+                    slotPokemonEntities
+                            .forEach(slotPokemonEntity -> slotPokemonEntity.getTypeEntity(connection, typeDAO,
+                                    pokemonEntity.getId()));
+                } else {
+                    pokemonEntity.setSlotPokemonEntities(new ArrayList<SlotPokemonEntity>());
+                }
                 return Optional.ofNullable(PokemonMapper.mapper.toPokemonDTO(pokemonEntity));
             } else {
                 return Optional.empty();
@@ -87,7 +95,6 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     @Override
     public int insert(PokemonDTO pokemonDTO) {
         try (Connection connection = DBUtil.open(false)) {
-            connection.setAutoCommit(false);
             try {
                 int pok_id = pokemonDAO.insert(connection, PokemonMapper.mapper.toPokemonEntity(pokemonDTO));
                 for (SlotPokemonDTO slotPokemonDTO : pokemonDTO.getSlotPokemonDTOs()) {
@@ -154,6 +161,36 @@ public class PokemonRepositoryImpl implements PokemonRepository {
             } finally {
                 connection.close();
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int insertPokemonType(SlotPokemonDTO slotPokemonDTO, int id) {
+        SlotPokemonEntity slotPokemonEntity = SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO);
+        try (Connection connection = DBUtil.open(true)) {
+            return slotPokemonDAO.insert(connection, slotPokemonEntity, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updatePokemonType(SlotPokemonDTO slotPokemonDTO, int id) {
+        SlotPokemonEntity slotPokemonEntity = SlotPokemonMapper.mapper.toSlotPokemonEntity(slotPokemonDTO);
+        try (Connection connection = DBUtil.open(true)) {
+            slotPokemonDAO.update(connection, slotPokemonEntity, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deletePokemonType(int id) {
+        try (Connection connection = DBUtil.open(true)) {
+            slotPokemonDAO.delete(connection, id);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

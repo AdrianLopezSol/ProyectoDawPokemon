@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
+import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
 
 @Repository
 public interface PokemonRepository {
@@ -23,5 +24,11 @@ public interface PokemonRepository {
     public void delete(int id);
 
     public void update(PokemonDTO pokemonDTO);
+
+    public void deletePokemonType(int id);
+
+    public void updatePokemonType(SlotPokemonDTO slotPokemonDTO, int id);
+
+    public int insertPokemonType(SlotPokemonDTO slotPokemonDTO, int id);
 
 }

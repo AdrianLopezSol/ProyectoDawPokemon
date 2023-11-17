@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
+import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
 
 @Service
 public interface PokemonService {
@@ -22,5 +23,11 @@ public interface PokemonService {
      public void update(PokemonDTO pokemonDTO);
 
      int getTotalNumberOfRecords();
+
+     public int createPokemonType(SlotPokemonDTO slotPokemonDTO, int id);
+
+     public void updatePokemonType(SlotPokemonDTO slotPokemonDTO, int id);
+
+     public void deletePokemonTypes(int id);
     
 }
