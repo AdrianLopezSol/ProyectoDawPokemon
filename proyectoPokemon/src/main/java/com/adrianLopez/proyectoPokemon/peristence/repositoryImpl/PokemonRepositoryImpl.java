@@ -61,7 +61,6 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     public Optional<PokemonDTO> find(int id) {
         try (Connection connection = DBUtil.open(true)) {
             Optional<PokemonEntity> optionalPokemonEntity = pokemonDAO.find(connection, id);
-
             if (optionalPokemonEntity.isPresent()) {
                 PokemonEntity pokemonEntity = optionalPokemonEntity.get();
                 pokemonEntity.getStatsEntity(connection, statsDAO);

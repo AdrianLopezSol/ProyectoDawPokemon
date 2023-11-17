@@ -83,12 +83,12 @@ public class PokemonServiceImpl implements PokemonService {
                 .orElseThrow(() -> new ResourceNotFoundException("Pokemon no encontrado con id: " + id)));
         if (pokemon.getSlotPokemons() != null) {
             for (SlotPokemon slotPokemon2 : pokemon.getSlotPokemons()) {
+                if (slotPokemon2.getSlot() == slotPokemon.getSlot()){
+                     throw new ResourceNotFoundException("El pokemon ya posee un tipo en el slot: " + slotPokemon.getSlot());
+                }
                 if (slotPokemon2.getType().getId() == slotPokemon.getType().getId())
                     throw new NotValidCombinationException("El pokemon no puede tener 2 tipos iguales");
             }
-        }
-        if (!pokemon.addSlotPokemon(slotPokemon)) {
-            throw new ResourceNotFoundException("El pokemon ya posee un tipo en el slot: " + slotPokemon.getSlot());
         }
         return pokemonRepository.insertPokemonType(SlotPokemonMapper.mapper.toSlotPokemonDTO(slotPokemon), id);
     }
@@ -100,12 +100,12 @@ public class PokemonServiceImpl implements PokemonService {
                 .orElseThrow(() -> new ResourceNotFoundException("Pokemon no encontrado con id: " + id)));
         if (pokemon.getSlotPokemons() != null) {
             for (SlotPokemon slotPokemon2 : pokemon.getSlotPokemons()) {
-                if (slotPokemon2.getType().equals(slotPokemon.getType()))
+                if (slotPokemon2.getSlot() == slotPokemon.getSlot()){
+                     throw new ResourceNotFoundException("El pokemon ya posee un tipo en el slot: " + slotPokemon.getSlot());
+                }
+                if (slotPokemon2.getType().getId() == slotPokemon.getType().getId())
                     throw new NotValidCombinationException("El pokemon no puede tener 2 tipos iguales");
             }
-        }
-        if (!pokemon.updateSlotPokemon(slotPokemon)) {
-            throw new ResourceNotFoundException("El pokemon no posee un tipo en el slot: " + slotPokemon.getSlot());
         }
         pokemonRepository.updatePokemonType(SlotPokemonMapper.mapper.toSlotPokemonDTO(slotPokemon), id);
     }
