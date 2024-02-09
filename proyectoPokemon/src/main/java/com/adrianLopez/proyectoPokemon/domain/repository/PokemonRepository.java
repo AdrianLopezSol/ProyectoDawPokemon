@@ -1,34 +1,30 @@
 package com.adrianLopez.proyectoPokemon.domain.repository;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Repository;
 
-import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
-import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
+import com.adrianLopez.proyectoPokemon.domain.entity.Pokemon;
+import com.adrianLopez.proyectoPokemon.domain.entity.SlotPokemon;
 
 @Repository
 public interface PokemonRepository {
 
-    public List<PokemonDTO> getAll(Integer page, Integer pageSize);
+    public Stream<Pokemon> getAll(Integer page, Integer pageSize);
 
-    public Optional<PokemonDTO> find(int id);
+    public Optional<Pokemon> find(int id);
 
-    public int getTotalNumberOfRecords();
+    public long getTotalNumberOfRecords();
 
     public boolean exists(int id);
 
-    public int insert(PokemonDTO pokemonDTO);
+    public Pokemon save(Pokemon pokemon);
 
     public void delete(int id);
 
-    public void update(PokemonDTO pokemonDTO);
-
     public void deletePokemonType(int id);
 
-    public void updatePokemonType(SlotPokemonDTO slotPokemonDTO, int id);
-
-    public int insertPokemonType(SlotPokemonDTO slotPokemonDTO, int id);
+    public SlotPokemon savePokemonType(SlotPokemon slotPokemon);
 
 }

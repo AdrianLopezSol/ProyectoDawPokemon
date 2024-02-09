@@ -4,16 +4,14 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
+import com.adrianLopez.proyectoPokemon.domain.entity.Stats;
 
 @Repository
 public interface StatsRepository {
 
-    public Optional<StatsDTO> find(int id);
+    public Optional<Stats> find(int id);
 
-    public int insert(StatsDTO statsDTO, int id);
-
-    public void update(StatsDTO statsDTO, int id);
+    public Stats save(Stats stats);
 
     public void delete(int id);
 

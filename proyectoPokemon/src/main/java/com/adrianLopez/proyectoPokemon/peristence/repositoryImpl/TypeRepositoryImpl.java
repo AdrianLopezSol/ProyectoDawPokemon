@@ -1,79 +1,76 @@
 package com.adrianLopez.proyectoPokemon.peristence.repositoryImpl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.adrianLopez.proyectoPokemon.db.DBUtil;
+import com.adrianLopez.proyectoPokemon.domain.entity.Type;
 import com.adrianLopez.proyectoPokemon.domain.repository.TypeRepository;
-import com.adrianLopez.proyectoPokemon.dto.TypeDTO;
-import com.adrianLopez.proyectoPokemon.mapper.TypeMapper;
 import com.adrianLopez.proyectoPokemon.peristence.dao.TypeDAO;
-import com.adrianLopez.proyectoPokemon.peristence.model.TypeEntity;
+import com.adrianLopez.proyectoPokemon.peristence.mapper.TypePersistanceMapper;
+
 
 @Repository
 public class TypeRepositoryImpl implements TypeRepository {
 
-    @Autowired
-    TypeDAO typeDAO;
+    @Qualifier("TypeDaoImpl")
+    final TypeDAO typeDAO;
 
-    @Override
-    public List<TypeDTO> findAll() {
-        try (Connection connection = DBUtil.open(true)) {
-            List<TypeEntity> typeEntities = typeDAO.findAll(connection);
-            List<TypeDTO> typeDTOs = typeEntities.stream()
-                    .map(TypeMapper.mapper::toTypeDTO)
-                    .toList();
-            return typeDTOs;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public TypeRepositoryImpl(TypeDAO typeDAO) {
+        this.typeDAO = typeDAO;
     }
 
     @Override
-    public int insert(TypeDTO typeDTO) {
-        try (Connection connection = DBUtil.open(true)) {
-            return typeDAO.insert(connection, TypeMapper.mapper.toTypeEntity(typeDTO));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Stream<Type> findAll() {
+        return typeDAO
+                .findAll()
+                .map(typeDTO -> TypePersistanceMapper.mapper.toType(typeDTO));
     }
 
     @Override
-    public void update(TypeDTO typeDTO) {
-        try (Connection connection = DBUtil.open(true)) {
-            typeDAO.update(connection, TypeMapper.mapper.toTypeEntity(typeDTO));
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Optional<Type> find(int id) {
+        return Optional.ofNullable(
+                TypePersistanceMapper
+                        .mapper
+                        .toType(
+                                typeDAO
+                                        .find(id)
+                                        .orElse(null)
+                        )
+        );
+    }
+
+    @Override
+    public Optional<Type> findByPokemonIdAndSlot(int id, int slot) {
+        return Optional.ofNullable(
+            TypePersistanceMapper
+                        .mapper
+                        .toType(
+                            typeDAO
+                                        .findByPokemonIdAndSlot(id, slot)
+                                        .orElse(null)
+                        )
+        );
+    }
+
+    @Override
+    public Type save(Type type) {
+        return TypePersistanceMapper
+                .mapper
+                .toType(
+                        typeDAO
+                                .save(
+                                        TypePersistanceMapper
+                                                .mapper
+                                                .toTypeDTO(type)
+                                )
+                );
     }
 
     @Override
     public void delete(int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            typeDAO.delete(connection, id);
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public Optional<TypeDTO> find(int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            Optional<TypeEntity> typeEntity = typeDAO.find(connection, id);
-            if (typeEntity.isEmpty()) {
-                return Optional.empty();
-            }
-            return Optional.of(TypeMapper.mapper.toTypeDTO(typeEntity.get()));
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        typeDAO.delete(id);
     }
 }

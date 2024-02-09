@@ -1,65 +1,55 @@
 package com.adrianLopez.proyectoPokemon.peristence.repositoryImpl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.adrianLopez.proyectoPokemon.db.DBUtil;
+import com.adrianLopez.proyectoPokemon.domain.entity.Stats;
 import com.adrianLopez.proyectoPokemon.domain.repository.StatsRepository;
-import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
-import com.adrianLopez.proyectoPokemon.mapper.StatsMapper;
 import com.adrianLopez.proyectoPokemon.peristence.dao.StatsDAO;
-import com.adrianLopez.proyectoPokemon.peristence.model.StatsEntity;
+import com.adrianLopez.proyectoPokemon.peristence.mapper.StatsPersistanceMapper;
 
 @Repository
 public class StatsRepositoryImpl implements StatsRepository {
 
-    @Autowired
-    StatsDAO statsDAO;
+    @Qualifier("StatsDaoJpaImpl")
+    final StatsDAO statsDAO;
 
-    @Override
-    public Optional<StatsDTO> find(int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            Optional<StatsEntity> statsEntity = statsDAO.find(connection, id);
-            if (statsEntity.isEmpty()) {
-                return Optional.empty();
-            }
-            return Optional.of(StatsMapper.mapper.toStatsDTO(statsEntity.get()));
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+    public StatsRepositoryImpl(StatsDAO statsDAO) {
+        this.statsDAO = statsDAO;
     }
 
     @Override
-    public int insert(StatsDTO statsDTO, int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            return statsDAO.insert(connection, StatsMapper.mapper.toStatsEntity(statsDTO), id);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Optional<Stats> find(int id) {
+        return Optional.ofNullable(
+                StatsPersistanceMapper
+                        .mapper
+                        .toStats(
+                                statsDAO
+                                        .find(id)
+                                        .orElse(null)
+                        )
+        );
     }
 
     @Override
-    public void update(StatsDTO statsDTO, int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            statsDAO.update(connection, StatsMapper.mapper.toStatsEntity(statsDTO), id);
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public Stats save(Stats stats) {
+        return StatsPersistanceMapper
+                .mapper
+                .toStats(
+                        statsDAO
+                                .save(
+                                        StatsPersistanceMapper
+                                                .mapper
+                                                .toStatsDTO(stats)
+                                )
+                );
     }
 
     @Override
     public void delete(int id) {
-        try (Connection connection = DBUtil.open(true)) {
-            statsDAO.delete(connection, id);
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        statsDAO.delete(id);
     }
 
 }
