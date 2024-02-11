@@ -23,7 +23,7 @@ public interface PokemonRepository {
 
     public void delete(int id);
 
-    public void deletePokemonType(int id);
+    public void deletePokemonTypes(int id);
 
     public SlotPokemon savePokemonType(SlotPokemon slotPokemon);
 

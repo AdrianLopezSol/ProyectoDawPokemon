@@ -1,16 +1,10 @@
-package com.adrianLopez.proyectoPokemon.domain.entity;
+package com.adrianLopez.proyectoPokemon.presentation.request;
 
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Stats {
+@Data
+public class StatsRequest {
 
     @Nullable
     Integer pok_id;
@@ -32,4 +26,5 @@ public class Stats {
 
     @Nullable
     Integer speed;
+    
 }

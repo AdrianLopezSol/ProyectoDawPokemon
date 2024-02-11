@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.adrianLopez.proyectoPokemon.exception.DBConnectionException;
-import com.adrianLopez.proyectoPokemon.exception.SQLStatementException;
+import com.adrianLopez.proyectoPokemon.common.exception.DBConnectionException;
+import com.adrianLopez.proyectoPokemon.common.exception.SQLStatementException;
 
 @Component
 public class DBUtil {

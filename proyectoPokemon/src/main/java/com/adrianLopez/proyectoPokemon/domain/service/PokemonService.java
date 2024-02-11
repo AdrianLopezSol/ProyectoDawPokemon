@@ -1,32 +1,32 @@
 package com.adrianLopez.proyectoPokemon.domain.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
-import com.adrianLopez.proyectoPokemon.dto.PokemonDTO;
-import com.adrianLopez.proyectoPokemon.dto.SlotPokemonDTO;
+import com.adrianLopez.proyectoPokemon.common.dto.PokemonDTO;
+import com.adrianLopez.proyectoPokemon.common.dto.SlotPokemonDTO;
 
 @Service
 public interface PokemonService {
 
-     public List<PokemonDTO> getAll(Integer page, Integer pageSize);
+     public Stream<PokemonDTO> getAll(Integer page, Integer pageSize);
 
-     public List<PokemonDTO> getAll();
+     public Stream<PokemonDTO> getAll();
 
      public PokemonDTO find(int id);
 
-     public int create(PokemonDTO pokemonDTO);
+     public PokemonDTO create(PokemonDTO pokemonDTO);
 
      public void delete(int id);
 
-     public void update(PokemonDTO pokemonDTO);
+     public PokemonDTO update(PokemonDTO pokemonDTO);
 
-     int getTotalNumberOfRecords();
+     long getTotalNumberOfRecords();
 
-     public int createPokemonType(SlotPokemonDTO slotPokemonDTO, int id);
+     public PokemonDTO addPokemonType(SlotPokemonDTO slotPokemonDTO, int id);
 
-     public void updatePokemonType(SlotPokemonDTO slotPokemonDTO, int id);
+     public PokemonDTO updatePokemonType(SlotPokemonDTO slotPokemonDTO, int id);
 
      public void deletePokemonTypes(int id);
     

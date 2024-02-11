@@ -1,22 +1,22 @@
 package com.adrianLopez.proyectoPokemon.domain.service;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
-import com.adrianLopez.proyectoPokemon.dto.TypeDTO;
+import com.adrianLopez.proyectoPokemon.common.dto.TypeDTO;
 
 @Service
 public interface TypeService {
 
-    public List<TypeDTO> findAll();
+    public Stream<TypeDTO> findAll(); 
 
     public TypeDTO find(int id);
 
     public void delete(int id);
 
-    public void update(TypeDTO typeDTO);
+    public TypeDTO update(TypeDTO typeDTO);
 
-    public int create(TypeDTO typeDTO);
+    public TypeDTO create(TypeDTO typeDTO);
 
 }

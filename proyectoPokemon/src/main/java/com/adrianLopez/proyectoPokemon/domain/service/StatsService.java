@@ -2,14 +2,14 @@ package com.adrianLopez.proyectoPokemon.domain.service;
 
 import org.springframework.stereotype.Service;
 
-import com.adrianLopez.proyectoPokemon.dto.StatsDTO;
+import com.adrianLopez.proyectoPokemon.common.dto.StatsDTO;
 
 @Service
 public interface StatsService {
 
-    public int create(StatsDTO statsDTO, int id);
+    public StatsDTO create(StatsDTO statsDTO);
 
-    public void update(StatsDTO statsDTO, int id);
+    public StatsDTO update(StatsDTO statsDTO);
 
     public void delete(int id);
 

@@ -1,16 +1,14 @@
-package com.adrianLopez.proyectoPokemon.domain.entity;
+package com.adrianLopez.proyectoPokemon.common.dto;
 
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Stats {
+public class StatsDTO {
 
     @Nullable
     Integer pok_id;
