@@ -47,7 +47,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public StatsDTO update(StatsDTO statsDTO) {
-        Stats stats = this.findStats(statsDTO.getPok_id());
+        Stats stats = this.findStats(statsDTO.getStats_id());
         StatsDomainMapper.mapper.updateStatsFromStatsDTO(statsDTO, stats);
         return StatsDomainMapper
                 .mapper

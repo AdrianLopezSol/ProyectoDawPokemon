@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Stats {
 
     @Nullable
-    Integer pok_id;
+    Integer stats_id;
     
     @Nullable
     Integer hp;

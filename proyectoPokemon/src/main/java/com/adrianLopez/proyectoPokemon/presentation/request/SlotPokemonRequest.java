@@ -15,7 +15,7 @@ public class SlotPokemonRequest {
     Integer slot;
 
     @Nullable
-    @JsonProperty("actor")
+    @JsonProperty("type")
     TypeRequest typeRequest;
     
 }

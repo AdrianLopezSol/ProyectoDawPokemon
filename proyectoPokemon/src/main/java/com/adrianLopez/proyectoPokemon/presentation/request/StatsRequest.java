@@ -7,7 +7,7 @@ import lombok.Data;
 public class StatsRequest {
 
     @Nullable
-    Integer pok_id;
+    Integer stats_id;
     
     @Nullable
     Integer hp;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.adrianLopez.proyectoPokemon.common.ApplicationProperties;
 import com.adrianLopez.proyectoPokemon.presentation.PokemonHttpController;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,8 +13,7 @@ import lombok.Data;
 public class PokemonResponse {
     
     String link;
-
-    @JsonIgnore
+    
     int id;
 
     String name;

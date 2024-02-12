@@ -17,6 +17,7 @@ import com.adrianLopez.proyectoPokemon.domain.entity.Stats;
 import com.adrianLopez.proyectoPokemon.domain.entity.Type;
 import com.adrianLopez.proyectoPokemon.domain.mapper.PokemonDomainMapper;
 import com.adrianLopez.proyectoPokemon.domain.mapper.SlotPokemonDomainMapper;
+import com.adrianLopez.proyectoPokemon.domain.mapper.StatsDomainMapper;
 import com.adrianLopez.proyectoPokemon.domain.repository.PokemonRepository;
 import com.adrianLopez.proyectoPokemon.domain.repository.StatsRepository;
 import com.adrianLopez.proyectoPokemon.domain.repository.TypeRepository;
@@ -102,15 +103,11 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     private void addStatsDTO(Pokemon pokemon, StatsDTO statsDTO) {
-        if(statsDTO == null || statsDTO.getPok_id() == null) {
+        if(statsDTO == null) {
             throw new BadRequestException("Stats cannot be null");
         }
-        Stats stats = statsRepository
-                .find(statsDTO.getPok_id())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException("Stats not found with id: " + statsDTO.getPok_id())
-                );
-            pokemon.setStats(stats);
+        Stats stats = StatsDomainMapper.mapper.toStats(statsDTO);
+        pokemon.setStats(stats);
     }
 
     @Override

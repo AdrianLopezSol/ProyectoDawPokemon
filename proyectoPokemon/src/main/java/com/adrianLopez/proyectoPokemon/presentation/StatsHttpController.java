@@ -59,7 +59,7 @@ public class StatsHttpController {
     @PutMapping("/{id}")
     public Response update(@PathVariable("id") int id, @RequestBody StatsRequest statsRequest) {
         StatsDTO statsDTO = StatsPresentationMapper.mapper.toStatsDTO(statsRequest);
-        statsDTO.setPok_id(id);
+        statsDTO.setStats_id(id);
         // validate(actorDto);
         return Response
                 .builder()

@@ -10,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,6 @@ public class PokemonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pok_id")
     private int id;
     @Column(name = "pok_name")
     private String name;
@@ -41,8 +40,8 @@ public class PokemonEntity {
     @JoinColumn(name = "pok_id")
     private List<SlotPokemonEntity> slotPokemonEntities;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pok_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stats_id")
     private StatsEntity statsEntity;
 
 }

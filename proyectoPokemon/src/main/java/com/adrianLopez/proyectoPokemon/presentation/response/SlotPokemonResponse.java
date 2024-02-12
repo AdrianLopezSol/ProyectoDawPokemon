@@ -11,7 +11,6 @@ public class SlotPokemonResponse {
     @JsonIgnore
     private int pok_id;
 
-    @JsonIgnore
     private int slot;
 
     @JsonProperty("type")

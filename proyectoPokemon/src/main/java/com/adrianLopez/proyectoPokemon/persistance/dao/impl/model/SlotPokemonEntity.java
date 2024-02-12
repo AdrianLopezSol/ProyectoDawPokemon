@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SlotPokemonEntity {
 
-    @Id
     private int slot;
 
+    @Id
     private int pok_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
