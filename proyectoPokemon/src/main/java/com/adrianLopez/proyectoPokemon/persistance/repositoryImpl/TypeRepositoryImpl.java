@@ -43,13 +43,13 @@ public class TypeRepositoryImpl implements TypeRepository {
     }
 
     @Override
-    public Optional<Type> findByPokemonIdAndSlot(int id, int slot) {
+    public Optional<Type> findByPokemonTypeId(int id) {
         return Optional.ofNullable(
             TypePersistanceMapper
                         .mapper
                         .toType(
                             typeDAO
-                                        .findByPokemonIdAndSlot(id, slot)
+                                        .findByPokemonTypeId(id)
                                         .orElse(null)
                         )
         );

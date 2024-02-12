@@ -12,7 +12,7 @@ public interface TypeRepository {
 
     public Stream<Type> findAll();
 
-    public Optional<Type> findByPokemonIdAndSlot(int id, int slot);
+    public Optional<Type> findByPokemonTypeId(int id);
 
     public void delete(int id);
 

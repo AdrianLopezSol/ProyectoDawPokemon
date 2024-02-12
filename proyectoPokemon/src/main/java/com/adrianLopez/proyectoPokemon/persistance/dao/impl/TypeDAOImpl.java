@@ -39,13 +39,13 @@ public class TypeDAOImpl implements TypeDAO {
     }
 
     @Override
-    public Optional<TypeDTO> findByPokemonIdAndSlot(int id, int slot) {
+    public Optional<TypeDTO> findByPokemonTypeId(int id) {
         return Optional.ofNullable(
             TypeEntityMapper
                         .mapper
                         .toTypeDTO(
                             typeJpaRepository
-                                        .findByIdAndSlot(id, slot)
+                                        .findById(id)
                                         .orElse(null)
                         )
         );

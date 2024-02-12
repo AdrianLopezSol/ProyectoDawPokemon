@@ -9,7 +9,7 @@ import lombok.Data;
 public class SlotPokemonResponse {
 
     @JsonIgnore
-    private int pok_id;
+    private int id;
 
     private int slot;
 

@@ -1,7 +1,10 @@
 package com.adrianLopez.proyectoPokemon.persistance.dao.impl.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,10 +20,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SlotPokemonEntity {
 
-    private int slot;
-
     @Id
-    private int pok_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pt_id")
+    private int id;
+
+    private int slot;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")

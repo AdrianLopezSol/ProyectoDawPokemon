@@ -11,11 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SlotPokemonDTO {
 
-    @Min(value = 0, message = "La id debe ser 0 o superior")
     @Nullable
-    Integer pok_id;
+    Integer id;
 
-    @Min(value = 0, message = "El slot debe ser 0 o superior")
+    @Min(value = 1, message = "El slot debe ser 1 o superior")
     @Nullable
     Integer slot;
 

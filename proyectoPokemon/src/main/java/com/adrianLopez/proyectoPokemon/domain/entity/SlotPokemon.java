@@ -13,7 +13,7 @@ import lombok.Setter;
 public class SlotPokemon {
 
     @Nullable
-    Integer pok_id;
+    Integer id;
 
     @Nullable
     Integer slot;

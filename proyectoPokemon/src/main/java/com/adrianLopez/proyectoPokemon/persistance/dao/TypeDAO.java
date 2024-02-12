@@ -12,7 +12,7 @@ public interface TypeDAO {
 
     public Stream<TypeDTO> findAll();
 
-    public Optional<TypeDTO> findByPokemonIdAndSlot(int id, int slot);
+    public Optional<TypeDTO> findByPokemonTypeId(int id);
 
     public void delete(int id);
 

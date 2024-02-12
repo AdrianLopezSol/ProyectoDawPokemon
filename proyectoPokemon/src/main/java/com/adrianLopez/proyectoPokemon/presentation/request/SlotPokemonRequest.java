@@ -9,9 +9,6 @@ import lombok.Data;
 public class SlotPokemonRequest {
 
     @Nullable
-    Integer pok_id;
-
-    @Nullable
     Integer slot;
 
     @Nullable
