@@ -18,6 +18,9 @@ import com.adrianLopez.proyectoPokemon.presentation.http_response.Response;
 import com.adrianLopez.proyectoPokemon.presentation.mapper.StatsPresentationMapper;
 import com.adrianLopez.proyectoPokemon.presentation.request.StatsRequest;
 
+import static com.adrianLopez.proyectoPokemon.common.dto.validation.Validation.validate;
+
+
 @RequestMapping(StatsHttpController.STATS)
 @RestController
 public class StatsHttpController {
@@ -44,7 +47,7 @@ public class StatsHttpController {
     @PostMapping("")
     public Response create(@RequestBody StatsRequest statsRequest) {
         StatsDTO statsDTO = StatsPresentationMapper.mapper.toStatsDTO(statsRequest);
-        // validate(typeDTO);
+        validate(statsDTO);
         return Response
                 .builder()
                 .data(
@@ -60,7 +63,7 @@ public class StatsHttpController {
     public Response update(@PathVariable("id") int id, @RequestBody StatsRequest statsRequest) {
         StatsDTO statsDTO = StatsPresentationMapper.mapper.toStatsDTO(statsRequest);
         statsDTO.setStats_id(id);
-        // validate(actorDto);
+        validate(statsDTO);
         return Response
                 .builder()
                 .data(

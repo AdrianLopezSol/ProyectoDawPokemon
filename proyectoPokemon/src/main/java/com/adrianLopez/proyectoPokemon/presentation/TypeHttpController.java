@@ -21,6 +21,9 @@ import com.adrianLopez.proyectoPokemon.presentation.mapper.TypePresentationMappe
 import com.adrianLopez.proyectoPokemon.presentation.request.TypeRequest;
 import com.adrianLopez.proyectoPokemon.presentation.response.TypeResponse;
 
+import static com.adrianLopez.proyectoPokemon.common.dto.validation.Validation.validate;
+
+
 @RequestMapping(TypeHttpController.TYPES)
 @RestController
 public class TypeHttpController {
@@ -66,7 +69,7 @@ public class TypeHttpController {
     @PostMapping("")
     public Response create(@RequestBody TypeRequest typeRequest){
         TypeDTO typeDTO = TypePresentationMapper.mapper.toTypeDTO(typeRequest);
-        //validate(typeDTO);
+        validate(typeDTO);
         return Response
                 .builder()
                 .data(
@@ -84,7 +87,7 @@ public class TypeHttpController {
     public Response update(@PathVariable("id") int id, @RequestBody TypeRequest typeRequest) {
         TypeDTO typeDTO = TypePresentationMapper.mapper.toTypeDTO(typeRequest);
         typeDTO.setId(id);
-        //validate(actorDto);
+        validate(typeDTO);
         return Response
                 .builder()
                 .data(

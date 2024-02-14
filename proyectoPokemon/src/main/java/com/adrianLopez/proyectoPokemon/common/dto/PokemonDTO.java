@@ -2,6 +2,8 @@ package com.adrianLopez.proyectoPokemon.common.dto;
 
 import java.util.List;
 
+import com.adrianLopez.proyectoPokemon.common.exception.DtoValidationException;
+
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -39,4 +41,18 @@ public class PokemonDTO {
 
     @Nullable
     private StatsDTO statsDTO;
+
+    public void setWeight(Integer weight){
+        if(this.height != null && weight != null &&  this.height > 100*weight){
+            throw new DtoValidationException("Un pokemon no puede nedir mas de 100 veces su peso.");
+        }
+        this.weight = weight;
+    }
+
+    public void setHeight(Integer height){
+        if(this.weight != null && height != null && height > 100*this.weight){
+            throw new DtoValidationException("Un pokemon no puede nedir mas de 100 veces su peso.");
+        }
+        this.height = height;
+    }
 }

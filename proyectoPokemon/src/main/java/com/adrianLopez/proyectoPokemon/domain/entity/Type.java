@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Type {
 
-    @Nullable
     Integer id;
 
     @Nullable

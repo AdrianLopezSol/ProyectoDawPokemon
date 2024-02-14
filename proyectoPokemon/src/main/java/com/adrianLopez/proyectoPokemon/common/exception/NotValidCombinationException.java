@@ -1,9 +1,0 @@
-package com.adrianLopez.proyectoPokemon.common.exception;
-
-public class NotValidCombinationException extends RuntimeException {
-    private static final String DESCRIPTION = "Not Valid Combination";
-
-    public NotValidCombinationException(String message) {
-        super(DESCRIPTION + ". " + message);
-    }
-}

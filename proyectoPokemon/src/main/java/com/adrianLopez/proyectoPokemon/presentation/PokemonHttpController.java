@@ -26,6 +26,9 @@ import com.adrianLopez.proyectoPokemon.presentation.request.PokemonRequest;
 import com.adrianLopez.proyectoPokemon.presentation.request.SlotPokemonRequest;
 import com.adrianLopez.proyectoPokemon.presentation.response.PokemonResponse;
 
+import static com.adrianLopez.proyectoPokemon.common.dto.validation.Validation.validate;
+
+
 @RequestMapping(PokemonHttpController.POKEMON)
 @RestController
 public class PokemonHttpController {
@@ -85,7 +88,9 @@ public class PokemonHttpController {
         PokemonDTO pokemonDTO = PokemonPresentationMapper
                 .mapper
                 .toPokemonDTO(pokemonRequest);
-        //validate(pokemonDTO);
+        validate(pokemonDTO);
+        pokemonDTO.getSlotPokemonDTOs().forEach(slotPokemonDTO -> validate(slotPokemonDTO));
+        validate(pokemonDTO.getStatsDTO());
         PokemonResponse PokemonResponse = PokemonPresentationMapper
                 .mapper
                 .toPokemonResponse(
@@ -102,7 +107,9 @@ public class PokemonHttpController {
     @PutMapping("/{id}")
     public Response update(@PathVariable("id") int id, @RequestBody PokemonRequest pokemonRequest) {
         PokemonDTO pokemonDTO = PokemonPresentationMapper.mapper.toPokemonDTO(pokemonRequest);
-        //validate(pokemonDTO);
+        validate(pokemonDTO);
+        pokemonDTO.getSlotPokemonDTOs().forEach(slotPokemonDTO -> validate(slotPokemonDTO));
+        validate(pokemonDTO.getStatsDTO());
         pokemonDTO.setId(id);
         PokemonResponse PokemonResponse = PokemonPresentationMapper
                 .mapper
@@ -126,6 +133,7 @@ public class PokemonHttpController {
     @PostMapping("/{id}/types")
     public Response addTypePokemon(@PathVariable("id") int id, @RequestBody SlotPokemonRequest slotPokemonRequest){
         SlotPokemonDTO slotPokemonDTO = SlotPokemonPresentationMapper.mapper.toSlotPokemonDTO(slotPokemonRequest);
+        validate(slotPokemonDTO);
         PokemonResponse pokemonResponse = PokemonPresentationMapper
                 .mapper
                 .toPokemonResponse(
@@ -144,13 +152,14 @@ public class PokemonHttpController {
             @PathVariable("id") int id,
             @PathVariable("slotId") int slotId,
             @RequestBody SlotPokemonRequest slotPokemonRequest){
-        SlotPokemonDTO SlotPokemonDTO = SlotPokemonPresentationMapper.mapper.toSlotPokemonDTO(slotPokemonRequest);
-        SlotPokemonDTO.setSlot(slotId);
+        SlotPokemonDTO slotPokemonDTO = SlotPokemonPresentationMapper.mapper.toSlotPokemonDTO(slotPokemonRequest);
+        slotPokemonDTO.setSlot(slotId);
+        validate(slotPokemonDTO);
         PokemonResponse PokemonResponse = PokemonPresentationMapper
                 .mapper
                 .toPokemonResponse(
                         pokemonService
-                                .updatePokemonType(SlotPokemonDTO, id)
+                                .updatePokemonType(slotPokemonDTO, id)
                 );
         return Response
                 .builder()

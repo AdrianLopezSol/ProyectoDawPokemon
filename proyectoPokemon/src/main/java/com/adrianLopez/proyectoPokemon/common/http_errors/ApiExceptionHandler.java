@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.adrianLopez.proyectoPokemon.common.exception.BadRequestException;
 import com.adrianLopez.proyectoPokemon.common.exception.DBConnectionException;
-import com.adrianLopez.proyectoPokemon.common.exception.NotValidCombinationException;
+import com.adrianLopez.proyectoPokemon.common.exception.DtoValidationException;
 import com.adrianLopez.proyectoPokemon.common.exception.ResourceNotFoundException;
 import com.adrianLopez.proyectoPokemon.common.exception.SQLStatementException;
+
+import jakarta.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -23,15 +25,6 @@ public class ApiExceptionHandler {
     @ResponseBody
     public ErrorMessage notFoundRequest(Exception exception) {
         return new ErrorMessage(exception.getMessage(), HttpStatus.NOT_FOUND.value());
-    }
-
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({
-            NotValidCombinationException.class
-    })
-    @ResponseBody
-    public ErrorMessage conflictOnOperation(Exception exception) {
-        return new ErrorMessage(exception.getMessage(), HttpStatus.CONFLICT.value());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -73,5 +66,17 @@ public class ApiExceptionHandler {
         exception.printStackTrace();
         return new ErrorMessage("Internal error", HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            ConstraintViolationException.class,
+            DtoValidationException.class,
+            jakarta.validation.ValidationException.class
+    })
+    @ResponseBody
+    public ErrorMessage ValidatonException(Exception exception){
+        return new ErrorMessage(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
+    }
+
 
 }
