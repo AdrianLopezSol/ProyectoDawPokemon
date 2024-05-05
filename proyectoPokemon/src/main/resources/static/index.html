@@ -1,26 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pokémon List</title>
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/ico" href="favicon.ico">
 </head>
 <body>
-    <h1>PokemonETB</h1>
-    <ul id="pokemon-list">
-        <li class="pokemon-element">
-            <div class="list-title"></div>
-            <div class="list-sprite"></div>
-            <div class="list-type"></div>
-        </li>
-    </ul>
+    <div id="container">
+        <div id="type-buttons-container"></div>
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search by name...">
+            <button id="search-button"><img src="img/search-icon.png" alt="Search"></button>
+        </div>
+        <div id="pokemon-list"></div>
+        <div id="details-container"></div>
+    </div>
+
+    <!-- Modals -->
     <div id="pokemon-modal" class="modal">
         <div class="modal-content">
-          <span class="close" id="close-details">&times;</span>
-          <h2 id="pokemon-name"></h2>
-          <div id="pokemon-types"></div>
+            <span class="close" id="close-details">&times;</span>
+            <div id="content-block1">
+                <h2 id="pokemon-name"></h2>
+                <p>ID: <span id="pokemon-id"></span></p>
+                <p>Height: <span id="pokemon-height"></span>m</p>
+                <p>Weight: <span id="pokemon-weight"></span>kg</p>
+                <p>Base Experience: <span id="pokemon-exp"></span></p>
+                <img src="" alt="Pokemon Image" id="pokemon-image">
+                <div id="pokemon-types"></div>
+            </div>
+            <div id="pokemon-stats">
+                <h3>Stats:</h3>
+                <p>HP: <span id="pokemon-hp"></span></p>
+                <p>Attack: <span id="pokemon-attack"></span></p>
+                <p>Defense: <span id="pokemon-defense"></span></p>
+                <p>Special Attack: <span id="pokemon-special-attack"></span></p>
+                <p>Special Defense: <span id="pokemon-special-defense"></span></p>
+                <p>Speed: <span id="pokemon-speed"></span></p>
+            </div>
         </div>
-      </div>
+    </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>

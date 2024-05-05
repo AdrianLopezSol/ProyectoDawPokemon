@@ -33,6 +33,20 @@ public class PokemonRepositoryImpl implements PokemonRepository {
     }
 
     @Override
+    public Stream<Pokemon> getByTypeId(Integer page, Integer pageSize, int typeId) {
+        return pokemonDAO
+                .findByTypeId(page, pageSize, typeId)
+                .map(pokemonDTO -> PokemonPersistanceMapper.mapper.toPokemonWithTypes(pokemonDTO));
+    }
+
+    @Override
+    public Stream<Pokemon> getByNameLike(Integer page, Integer pageSize, String name) {
+        return pokemonDAO
+                .findByNameLike(page, pageSize, name)
+                .map(pokemonDTO -> PokemonPersistanceMapper.mapper.toPokemonWithTypes(pokemonDTO));
+    }
+
+    @Override
     public Optional<Pokemon> find(int id) {
         return Optional.ofNullable(
                 PokemonPersistanceMapper.mapper

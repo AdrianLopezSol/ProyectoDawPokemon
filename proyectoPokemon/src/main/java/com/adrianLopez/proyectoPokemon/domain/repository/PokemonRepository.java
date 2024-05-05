@@ -13,6 +13,10 @@ public interface PokemonRepository {
 
     public Stream<Pokemon> getAll(Integer page, Integer pageSize);
 
+    public Stream<Pokemon> getByTypeId(Integer page, Integer pageSize, int typeId);
+
+    public Stream<Pokemon> getByNameLike(Integer page, Integer pageSize, String name);
+
     public Optional<Pokemon> find(int id);
 
     public long getTotalNumberOfRecords();

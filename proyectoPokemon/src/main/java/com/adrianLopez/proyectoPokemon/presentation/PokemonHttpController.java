@@ -69,6 +69,54 @@ public class PokemonHttpController {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/types/{id}")
+    public Response getAllByTypeId(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer pageSize, @PathVariable("id") int id) {
+        pageSize = (pageSize != null)? pageSize : PAGE_SIZE;
+        Stream<PokemonDTO> pokemonDTOStream = (page != null)? pokemonService.getByTypeId(page, pageSize, id) : pokemonService.getByTypeId(id);
+
+        Stream<PokemonResponse> PokemonResponseStream =
+            pokemonDTOStream.map(
+                        pokemonDTO -> {
+                            return PokemonPresentationMapper.mapper.toPokemonResponse(pokemonDTO);
+                        }
+        );
+        long totalRecords = pokemonService.getTotalNumberOfRecords();
+        Response response = Response.builder()
+                .data(PokemonResponseStream)
+                .totalRecords(totalRecords)
+                .build();
+
+        if(page != null) {
+            response.paginate(page, pageSize, urlBase);
+        }
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/name/{name}")
+    public Response getAllByNameLike(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer pageSize, @PathVariable("name") String name) {
+        pageSize = (pageSize != null)? pageSize : PAGE_SIZE;
+        Stream<PokemonDTO> pokemonDTOStream = (page != null)? pokemonService.getByNameLike(page, pageSize, name) : pokemonService.getByNameLike(name);
+
+        Stream<PokemonResponse> PokemonResponseStream =
+            pokemonDTOStream.map(
+                        pokemonDTO -> {
+                            return PokemonPresentationMapper.mapper.toPokemonResponse(pokemonDTO);
+                        }
+        );
+        long totalRecords = pokemonService.getTotalNumberOfRecords();
+        Response response = Response.builder()
+                .data(PokemonResponseStream)
+                .totalRecords(totalRecords)
+                .build();
+
+        if(page != null) {
+            response.paginate(page, pageSize, urlBase);
+        }
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Response find(@PathVariable("id") int id) {
         PokemonResponse pokemonResponse = PokemonPresentationMapper

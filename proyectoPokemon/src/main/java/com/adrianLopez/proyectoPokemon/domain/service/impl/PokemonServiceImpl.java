@@ -48,6 +48,32 @@ public class PokemonServiceImpl implements PokemonService {
                 .map(PokemonDomainMapper.mapper::toPokemonDTO);
     }
 
+    @Override
+    public Stream<PokemonDTO> getByTypeId(Integer page, Integer pageSize, int typeId) {
+        return pokemonRepository
+                .getByTypeId(page, pageSize, typeId)
+                .map(PokemonDomainMapper.mapper::toPokemonDTO);
+    }
+
+    @Override
+    public Stream<PokemonDTO> getByTypeId(int typeId) {
+        return  pokemonRepository.getByTypeId(null, null, typeId)
+                .map(PokemonDomainMapper.mapper::toPokemonDTO);
+    }
+
+    @Override
+    public Stream<PokemonDTO> getByNameLike(Integer page, Integer pageSize, String name) {
+        return pokemonRepository
+                .getByNameLike(page, pageSize, name)
+                .map(PokemonDomainMapper.mapper::toPokemonDTO);
+    }
+
+    @Override
+    public Stream<PokemonDTO> getByNameLike(String name) {
+        return  pokemonRepository.getByNameLike(null, null, name)
+                .map(PokemonDomainMapper.mapper::toPokemonDTO);
+    }
+
 
     @Override
     public PokemonDTO find(int id) {

@@ -12,6 +12,14 @@ public interface PokemonService {
 
      public Stream<PokemonDTO> getAll(Integer page, Integer pageSize);
 
+     public Stream<PokemonDTO> getByTypeId(Integer page, Integer pageSize, int typeId);
+
+     public Stream<PokemonDTO> getByNameLike(Integer page, Integer pageSize, String name);
+
+     public Stream<PokemonDTO> getByTypeId(int typeId);
+
+     public Stream<PokemonDTO> getByNameLike(String name);
+
      public Stream<PokemonDTO> getAll();
 
      public PokemonDTO find(int id);

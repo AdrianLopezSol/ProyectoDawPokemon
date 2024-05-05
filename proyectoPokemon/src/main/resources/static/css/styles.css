@@ -118,7 +118,48 @@ body{
     background: linear-gradient(45deg, transparent 25%, rgba(0, 0, 0, 0.2) 25%, rgba(0, 0, 0, 0.2) 50%, transparent 50%, transparent 75%, rgba(0, 0, 0, 0.2) 75%, rgba(0, 0, 0, 0.2)); /* Adds stripes */
     background-size: 20px 20px; /* Adjust the size of stripes as needed */
     border: 1px solid #000; /* Adds a black outline */
-  
+  }
+
+  .type-button {
+    background-size: contain; /* Ensure background images fit within the button */
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    width: 100px; /* Set width to make the button bigger */
+    height: 20px; /* Set height to make the button bigger */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    outline: none; /* Remove outline */
+    transition: filter 0.3s; /* Add transition for smooth filter change */
   }
   
-  /* Add styles for other details as needed */
+  .type-button.pressed {
+      filter: grayscale(100%); /* Apply grayscale filter for pressed state */
+  }
+
+  .search-container {
+    position: relative;
+    margin-top: 20px; /* Adjust margin as needed */
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    width: 300px; /* Adjust width as needed */
+    padding: 10px; /* Adjust padding as needed */
+    border: none;
+    border-radius: 25px; /* Adjust border-radius for rounded corners */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; /* Add shadow */
+    background-color: rgba(255, 255, 255, 0.9); /* Adjust background color and transparency */
+    font-size: 16px; /* Adjust font size as needed */
+    color: #000; /* Adjust text color */
+}
+
+#search-button {
+  transform: translate(-45px, 5px);
+    background: none;
+    border: none;
+    padding: 5px;
+}
+
+#search-button img {
+    width: 20px; /* Adjust image size as needed */
+    height: 20px; /* Adjust image size as needed */
+}

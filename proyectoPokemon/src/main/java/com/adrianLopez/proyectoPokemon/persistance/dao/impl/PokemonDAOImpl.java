@@ -35,6 +35,36 @@ public class PokemonDAOImpl implements PokemonDAO {
     }
 
     @Override
+    public Stream<PokemonDTO> findByTypeId(Integer page, Integer pageSize, int typeId) {
+        if(page != null && page > 0) {
+            Pageable pageable = PageRequest.of(page - 1, pageSize);
+            return pokemonJpaRepository
+                    .findBySlotPokemonEntitiesTypeEntityId(typeId, pageable)
+                    .stream()
+                    .map(PokemonEntityMapper.mapper::toPokemonDtoWithTypes);
+        }
+        return pokemonJpaRepository
+                .findBySlotPokemonEntitiesTypeEntityId(typeId)
+                .stream()
+                .map(PokemonEntityMapper.mapper::toPokemonDtoWithTypes);
+    }
+
+    @Override
+    public Stream<PokemonDTO> findByNameLike(Integer page, Integer pageSize, String name) {
+        if(page != null && page > 0) {
+            Pageable pageable = PageRequest.of(page - 1, pageSize);
+            return pokemonJpaRepository
+                    .findByNameContainingIgnoreCase(name, pageable)
+                    .stream()
+                    .map(PokemonEntityMapper.mapper::toPokemonDtoWithTypes);
+        }
+        return pokemonJpaRepository
+                .findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(PokemonEntityMapper.mapper::toPokemonDtoWithTypes);
+    }
+
+    @Override
     public Optional<PokemonDTO> find(int id) {
         return Optional.ofNullable(
             PokemonEntityMapper
