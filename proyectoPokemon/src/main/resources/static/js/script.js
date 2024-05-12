@@ -8,73 +8,73 @@ let selectedTypes = []; // Array to store selected type IDs
 
 // Function to load Pokémon data based on selected types and search content
 function loadPokemonData() {
-  if (isLoading) {
-      return;
-  }
+    if (isLoading) {
+        return;
+    }
 
-  isLoading = true;
+    isLoading = true;
 
-  let url;
+    let url;
 
-  const searchTerm = searchBar.value.trim().toLowerCase();
+    const searchTerm = searchBar.value.trim().toLowerCase();
 
-  // If there are selected types and search term, fetch all Pokemon and filter client-side
-  if (selectedTypes.length > 0 && searchTerm !== "") {
-      url = `http://localhost:8080/api/pokemon`;
-  } else if (selectedTypes.length === 0 && searchTerm !== "") {
-      // If no types are selected but there's a search term, fetch based on the search term
-      url = `http://localhost:8080/api/pokemon/name/${searchTerm}`;
-  } else if (selectedTypes.length > 0 && searchTerm === "") {
-      // If types are selected but no search term, fetch based on types
-      const selectedType = selectedTypes[0];
-      url = `http://localhost:8080/api/pokemon/types/${selectedType}?page=${page}`;
-  } else {
-      // If no types and no search term, fetch paginated data
-      url = `http://localhost:8080/api/pokemon?page=${page}`;
-  }
+    // If there are selected types and search term, fetch all Pokemon and filter client-side
+    if (selectedTypes.length > 0 && searchTerm !== "") {
+        url = `http://localhost:8080/api/pokemon`;
+    } else if (selectedTypes.length === 0 && searchTerm !== "") {
+        // If no types are selected but there's a search term, fetch based on the search term
+        url = `http://localhost:8080/api/pokemon/name/${searchTerm}`;
+    } else if (selectedTypes.length > 0 && searchTerm === "") {
+        // If types are selected but no search term, fetch based on types
+        const selectedType = selectedTypes[0];
+        url = `http://localhost:8080/api/pokemon/types/${selectedType}`;
+    } else {
+        // If no types and no search term, fetch paginated data
+        url = `http://localhost:8080/api/pokemon?page=${page}`;
+    }
 
-  fetch(url)
-      .then((response) => response.json())
-      .then((result) => {
-          let data = result.data;
+    fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+            let data = result.data;
 
-          // Filter by selected types
-          if (selectedTypes.length > 0 && searchTerm === "") {
-              data = data.filter((pokemon) => {
-                  return selectedTypes.every((typeId) => {
-                      return pokemon.types.some((type) => type.type.id === typeId);
-                  });
-              });
-          }
+            // Filter by selected types
+            if (selectedTypes.length > 0 && searchTerm === "") {
+                data = data.filter((pokemon) => {
+                    return selectedTypes.every((typeId) => {
+                        return pokemon.types.some((type) => type.type.id === typeId);
+                    });
+                });
+            }
 
-          // Filter by name and selected types
-          if (searchTerm !== "" && selectedTypes.length > 0) {
-              data = data.filter((pokemon) => {
-                  return pokemon.name.toLowerCase().includes(searchTerm) &&
-                      selectedTypes.every((typeId) => {
-                          return pokemon.types.some((type) => type.type.id === typeId);
-                      });
-              });
-          }
+            // Filter by name and selected types
+            if (searchTerm !== "" && selectedTypes.length > 0) {
+                data = data.filter((pokemon) => {
+                    return pokemon.name.toLowerCase().includes(searchTerm) &&
+                        selectedTypes.every((typeId) => {
+                            return pokemon.types.some((type) => type.type.id === typeId);
+                        });
+                });
+            }
 
-          const pokemonList = document.getElementById("pokemon-list");
+            const pokemonList = document.getElementById("pokemon-list");
 
-          // Append new items instead of replacing existing ones
-          data.forEach((pokemon) => {
-              const listItem = createPokemonListItem(pokemon);
-              listItem.addEventListener("click", () => showDetails(pokemon));
-              pokemonList.appendChild(listItem);
-          });
+            // Append new items instead of replacing existing ones
+            data.forEach((pokemon) => {
+                const listItem = createPokemonListItem(pokemon);
+                listItem.addEventListener("click", () => showDetails(pokemon));
+                pokemonList.appendChild(listItem);
+            });
 
-          isLoading = false;
-          if (selectedTypes.length === 0 && searchTerm === "") {
-              page++; // Increment page number for next fetch
-          }
-      })
-      .catch((error) => {
-          console.error("Error:", error);
-          isLoading = false;
-      });
+            isLoading = false;
+            if (selectedTypes.length === 0 && searchTerm === "") {
+                page++; // Increment page number for next fetch
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            isLoading = false;
+        });
 }
 
 // Add event listener to the search bar input
@@ -155,6 +155,14 @@ function debounce(func, delay) {
 const debounceLoadData = debounce(loadPokemonData, 100);
 
 window.addEventListener('scroll', function () {
+    const hasSelectedTypes = selectedTypes.length > 0;
+    const searchTerm = searchBar.value.trim().toLowerCase();
+    const hasSearchTerm = searchTerm !== "";
+
+    if (hasSelectedTypes || hasSearchTerm) {
+        return;
+    }
+
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight * 0.80) {
         debounceLoadData();
     }
